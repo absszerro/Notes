@@ -4,8 +4,10 @@ import customtkinter
 import customtkinter as ctk
 from PIL import Image, ImageTk
 
-HEIGHT = 580
-WIDTH = 1100
+HEIGHT = 700
+WIDTH = 1200
+
+COLORS = ['', '', '']
 
 ctk.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
 ctk.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -15,13 +17,7 @@ class MainWindow(ctk.CTk):
     def __init__(self, ):
         super().__init__()
 
-        # self.check = [False, False, False, False, ]
-        # self.check_1 = False
-        # self.check_2 = False
-        # self.check_3 = False
-        # self.check_4 = False
-        # self.check_5 = False
-
+        # icons
         icon_home = ctk.CTkImage(Image.open('icons/home.png'), size=(20, 20))
         icon_archive = ctk.CTkImage(Image.open('icons/archive.png'), size=(20, 20))
         icon_statistics = ctk.CTkImage(Image.open('icons/statistics.png'), size=(20, 20))
@@ -29,6 +25,7 @@ class MainWindow(ctk.CTk):
 
         # create a window
         self.title('Planner')
+        self.resizable(False, False)
         self.geometry(f"{WIDTH}x{HEIGHT}")
         # self.home_frame = None
 
@@ -91,11 +88,47 @@ class MainWindow(ctk.CTk):
         # settings frame
         self.settings_frame = self.create_settings_frame()
 
+        self.select_frame_by_name('home')
+
     def create_home_frame(self, ):
-        return ctk.CTkFrame(self, width=WIDTH, height=HEIGHT, corner_radius=0, fg_color='red', )
+        frame = ctk.CTkFrame(self, width=WIDTH, height=HEIGHT, corner_radius=0, fg_color='transparent', )
+
+        return frame
 
     def create_archive_frame(self, ):
-        frame = ctk.CTkFrame(self, width=WIDTH, height=HEIGHT, corner_radius=0, )
+        icon_search = ctk.CTkImage(Image.open('icons/search.png'), size=(20, 20))
+        icon_sorted = ctk.CTkImage(Image.open('icons/sorted.png'), size=(20, 20))
+
+        frame = ctk.CTkFrame(self, width=WIDTH, height=HEIGHT, corner_radius=0, fg_color='transparent', )
+        entry = ctk.CTkEntry(frame, placeholder_text='Поиск', width=600, height=30, border_width=2)
+        # entry.pack(padx=20, pady=10)
+        entry.place(relx=0.5, rely=0.02, anchor=tk.N)
+        button_search = ctk.CTkButton(frame,
+                                      text='',
+                                      image=icon_search,
+                                      fg_color='transparent',
+                                      corner_radius=0,
+                                      # anchor="N",
+                                      width=30,
+                                      height=30,
+                                      border_spacing=10,
+                                      hover_color=("gray70", "gray30"),
+                                      command=self.clicked_search)
+        # button_search.pack(side=tk.BOTTOM)
+        button_search.place(relx=0.81, rely=0.01, anchor=tk.N)
+        button_sorted = ctk.CTkButton(frame,
+                                      text='Недавние',
+                                      image=icon_sorted,
+                                      fg_color='transparent',
+                                      corner_radius=0,
+                                      # anchor="N",
+                                      width=30,
+                                      height=30,
+                                      border_spacing=10,
+                                      hover_color=("gray70", "gray30"),
+                                      command=self.clicked_sorted)
+        button_sorted.place(relx=0.88, rely=0.01, anchor=tk.N)
+        self.create_note(frame)
         return frame
 
     def create_statistics_frame(self):
@@ -103,6 +136,18 @@ class MainWindow(ctk.CTk):
 
     def create_settings_frame(self):
         return ctk.CTkFrame(self, width=WIDTH, height=HEIGHT, corner_radius=0, fg_color='blue')
+
+    def create_list_tags(self):
+        pass
+
+    def create_list_notes(self):
+        pass
+
+    def create_note(self, frame):
+        light_color = ''
+        dark_color = ''
+        note = ctk.CTkButton(frame, fg_color=('#abbbbb', '#ababba'))
+        note.place(relx=0.5, rely=0.5)
 
     def select_frame_by_name(self, name):
         self.home_button.configure(fg_color=("gray75", "gray25") if name == "home" else "transparent")
@@ -128,50 +173,20 @@ class MainWindow(ctk.CTk):
         else:
             self.settings_frame.pack_forget()
 
-    # def close_all_frame(self, ):
-    #     self.home_frame.pack_forget()
-    #     self.archive_frame.pack_forget()
-    #     self.statistics_frame.pack_forget()
-    #     self.settings_frame.pack_forget()
-    #     for i in range(0, len(self.check)):
-    #         self.check[i] = False
-
     def clicked_home_button(self):
-        # if not self.check[0]:
-        #     self.close_all_frame()
-        #     self.home_frame.pack(fill=tk.X, side=tk.RIGHT)
-        #     self.check[0] = True
-        # else:
-        #     self.home_frame.pack_forget()
-        #     self.check[0] = False
         self.select_frame_by_name('home')
 
     def clicked_archive_button(self):
-        # if not self.check[1]:
-        #     self.close_all_frame()
-        #     self.archive_frame.pack(fill=tk.X, side=tk.RIGHT)
-        #     self.check[1] = True
-        # else:
-        #     self.archive_frame.pack_forget()
-        #     self.check[1] = False
         self.select_frame_by_name('archive')
 
     def clicked_statistics_button(self):
-        # if not self.check[2]:
-        #     self.close_all_frame()
-        #     self.statistics_frame.pack(fill=tk.X, side=tk.RIGHT)
-        #     self.check[2] = True
-        # else:
-        #     self.statistics_frame.pack_forget()
-        #     self.check[2] = False
         self.select_frame_by_name('statistics')
 
     def clicked_settings_button(self):
-        # if not self.check[3]:
-        #     self.close_all_frame()
-        #     self.settings_frame.pack(fill=tk.X, side=tk.RIGHT)
-        #     self.check[3] = True
-        # else:
-        #     self.settings_frame.pack_forget()
-        #     self.check[3] = False
         self.select_frame_by_name('settings')
+
+    def clicked_search(self):
+        pass
+
+    def clicked_sorted(self):
+        pass
