@@ -106,6 +106,7 @@ class MainWindow(ctk.CTk):
     def create_archive_frame(self, ):
         icon_search = ctk.CTkImage(Image.open('icons/search.png'), size=(20, 20))
         icon_sorted = ctk.CTkImage(Image.open('icons/sorted.png'), size=(20, 20))
+        icon_add_note = ctk.CTkImage(Image.open('icons/add2.png'), size=(30, 30))
 
         frame = ctk.CTkFrame(self, width=WIDTH, height=HEIGHT, corner_radius=0, fg_color='transparent', )
         entry = ctk.CTkEntry(frame, placeholder_text='Поиск', width=600, height=30, border_width=2)
@@ -138,15 +139,59 @@ class MainWindow(ctk.CTk):
         button_sorted.place(relx=0.88, rely=0.01, anchor=tk.N)
 
         frame_tags = ctk.CTkFrame(frame,
-                                  fg_color='gray20',
+                                  fg_color='gray15',
                                   corner_radius=10,
                                   width=1000,
-                                  height=50,
+                                  height=45,
                                   border_color='red',
                                   )
-        frame_tags.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
 
-        self.create_note(frame)
+        frame_tags.place(relx=0.5, rely=0.13, anchor=tk.CENTER)
+        frame_tags.pack_propagate(False)
+        frame_tags.grid_propagate(False)
+
+        self.create_list_tags(frame_tags)
+
+        # frame_notes = tk.Frame(frame,
+        #                        background='gray15',
+        #                        # corner_radius=10,
+        #                        width=1000,
+        #                        height=500, )
+
+        frame_notes = ctk.CTkFrame(frame,
+                                   fg_color='gray15',
+                                   corner_radius=10,
+                                   width=1000,
+                                   height=500,
+                                   border_color='red',
+                                   )
+        frame_notes.place(relx=0.5, rely=0.20, anchor='n')
+        frame_notes.pack_propagate(False)
+        frame_notes.grid_propagate(False)
+
+        # scroll = ctk.CTkScrollbar(frame_notes, orientation='vertical', command=frame_notes.yview)
+        # scroll.grid(row=0, column=5, sticky='NS')
+        # scroll.pack(side='right', fill=tk.Y)
+        # frame_notes['yscrollcommand'] = scroll.set
+
+        self.create_list_notes(frame_notes)
+
+        # frame_notes.configure(yscrollcommand=scroll.set)
+
+        button_create_note = ctk.CTkButton(frame,
+                                           text='',
+                                           image=icon_add_note,
+                                           fg_color='transparent',
+                                           # anchor="N",
+                                           width=10,
+                                           height=10,
+                                           # border_spacing=10,
+                                           # corner_radius=100,
+                                           hover_color=("gray70", "gray30"),
+                                           command=self.clicked_add_note)
+        # button_create_note.pack()
+        button_create_note.place(relx=0.95, rely=0.98, anchor='s')
+
         return frame
 
     def create_statistics_frame(self):
@@ -155,22 +200,45 @@ class MainWindow(ctk.CTk):
     def create_settings_frame(self):
         return ctk.CTkFrame(self, width=WIDTH, height=HEIGHT, corner_radius=0, fg_color='blue')
 
-    def create_list_tags(self):
-        pass
+    def create_list_tags(self, frame):
+        tags = ['#idea', '#food', '#school', ]
+        index = 0
+        for tag in tags:
+            color = random.choice(COLORS)
+            tag_button = ctk.CTkButton(frame,
+                                       text=tag,
+                                       # fg_color=color[0],
+                                       # hover_color=(color[0], color[1]),
+                                       corner_radius=30,
+                                       width=20,
+                                       height=20,
+                                       border_width=0,
+                                       )
+            tag_button.grid(row=0, column=index, padx=10, pady=10)
+            index += 1
 
-    def create_list_notes(self):
-        pass
+    def create_list_notes(self, frame):
+        notes = [0] * 5
+        row = 0
+        column = 0
+        for i in range(len(notes)):
+            if column == 4:
+                column = 0
+                row += 1
+            self.create_note(frame, '12.12.12', '1/10', 'jffkefweflefj', row, column)
+            column += 1
 
-    def create_note(self, frame):
+    def create_note(self, frame, date, check_tasks, data_preview, row, column):
         color = random.choice(COLORS)
         font = ('', 14, tk.font.BOLD)
         width = 200
         height = 200
-        date = '16.12.2023'
-        check_tasks = '1/10'
-        data_preview = 'today \nim so tired 123456' + ' . . . '
+        # date = '16.12.2023'
+        # check_tasks = '1/10'
+        # data_preview = 'today \nim so tired 123456' + ' . . . '
+        text_format = '\n' + date + '\t' + check_tasks + '\n\n' + data_preview
         label = ctk.CTkLabel(frame,
-                             text='\n' + date + '\t\t' + check_tasks + '\n\n' + data_preview,
+                             text=text_format,
                              font=font,
                              text_color=DARK_TEXT_COLOR,
                              justify='left',
@@ -183,7 +251,8 @@ class MainWindow(ctk.CTk):
         label.bind('<Button-1>', lambda e: self.open_note(date))
         label.bind('<Enter>', partial(self.config_widget, label, color[0]))
         label.bind('<Leave>', partial(self.config_widget, label, color[1]))
-        label.place(relx=0.5, rely=0.5, anchor=tk.N)
+        # label.place(relx=0.5, rely=0.5, anchor=tk.N)
+        label.grid(row=row, column=column, padx=25, pady=25)
 
     def config_widget(self, widget, color, event):
         widget.configure(fg_color=color)
@@ -226,6 +295,9 @@ class MainWindow(ctk.CTk):
 
     def open_note(self, date):
         print('OPEEEEEENNN')
+
+    def clicked_add_note(self):
+        pass
 
     def clicked_search(self):
         pass
