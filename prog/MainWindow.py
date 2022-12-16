@@ -15,6 +15,8 @@ COLORS = [('#ED8C8A', '#FF9494'),
           ('#7CEBA1', '#87FFA9'),
           ('#8988EB', '#9A94FF')]
 
+DARK_TEXT_COLOR = '#272138'
+
 ctk.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
 ctk.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
@@ -135,14 +137,15 @@ class MainWindow(ctk.CTk):
                                       command=self.clicked_sorted)
         button_sorted.place(relx=0.88, rely=0.01, anchor=tk.N)
 
-        # frame_tags = ctk.CTkFrame(frame,
-        #                           fg_color='red',
-        #                           corner_radius=0,
-        #                           width=frame.winfo_width(),
-        #                           height=40,
-        #                           border_color='red',
-        #                           )
-        # frame_tags.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+        frame_tags = ctk.CTkFrame(frame,
+                                  fg_color='gray20',
+                                  corner_radius=10,
+                                  width=1000,
+                                  height=50,
+                                  border_color='red',
+                                  )
+        frame_tags.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
+
         self.create_note(frame)
         return frame
 
@@ -160,19 +163,20 @@ class MainWindow(ctk.CTk):
 
     def create_note(self, frame):
         color = random.choice(COLORS)
-        text_color = '#272138'
-        # font =
+        font = ('', 14, tk.font.BOLD)
+        width = 200
+        height = 200
         date = '16.12.2023'
         check_tasks = '1/10'
         data_preview = 'today \nim so tired 123456' + ' . . . '
         label = ctk.CTkLabel(frame,
                              text='\n' + date + '\t\t' + check_tasks + '\n\n' + data_preview,
-                             font=('', 14, tk.font.BOLD),
-                             text_color=text_color,
+                             font=font,
+                             text_color=DARK_TEXT_COLOR,
                              justify='left',
                              fg_color=color[0],
-                             width=250,
-                             height=250,
+                             width=width,
+                             height=height,
                              anchor='n',
                              corner_radius=10,
                              )
