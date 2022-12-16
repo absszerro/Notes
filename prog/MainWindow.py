@@ -30,13 +30,11 @@ class MainWindow(ctk.CTk):
         self.icon_archive = ctk.CTkImage(Image.open('icons/archive.png'), size=(20, 20))
         self.icon_statistics = ctk.CTkImage(Image.open('icons/statistics.png'), size=(20, 20))
         self.icon_settings = ctk.CTkImage(Image.open('icons/settings.png'), size=(20, 20))
-        self.icon_save = ctk.CTkImage(Image.open('icons/save.png'), size=(20, 20))
+        self.icon_save = ctk.CTkImage(Image.open('icons/save.png'), size=(30, 30))
         self.icon_edit = ctk.CTkImage(Image.open('icons/edit.png'), size=(30, 30))
         self.icon_search = ctk.CTkImage(Image.open('icons/search.png'), size=(20, 20))
         self.icon_sorted = ctk.CTkImage(Image.open('icons/sorted.png'), size=(20, 20))
         self.icon_add_note = ctk.CTkImage(Image.open('icons/add2.png'), size=(30, 30))
-
-
 
         # create a window
         self.title('Planner')
@@ -108,6 +106,9 @@ class MainWindow(ctk.CTk):
     def create_home_frame(self, ):
 
         frame = ctk.CTkFrame(self, width=WIDTH, height=HEIGHT, corner_radius=0, fg_color='transparent', )
+        ## frame.pack_configure(False)
+        # frame.pack_propagate(False)
+        # frame.grid_propagate(False)
 
         date_time = '12/12/2015'
         data = ''
@@ -139,11 +140,9 @@ class MainWindow(ctk.CTk):
         frame_view.pack_propagate(False)
         frame_view.grid_propagate(False)
 
-        # frame_edit_menu = ctk.CTkFrame(frame)
-
         button_edit_note = ctk.CTkButton(frame,
                                          text='',
-                                         image=self.icon_edit,
+                                         image=self.icon_save,
                                          fg_color='transparent',
                                          # anchor="N",
                                          width=10,
@@ -151,9 +150,12 @@ class MainWindow(ctk.CTk):
                                          # border_spacing=10,
                                          # corner_radius=100,
                                          hover_color=("gray70", "gray30"),
-                                         command=lambda: self.clicked_edit_note(frame, button_edit_note))
+                                         # command=lambda: self.clicked_save_note(frame)
+                                         )
+        frame_edit = self.create_frame_edit(frame)
+        frame_edit.place(relx=0.479, rely=0.98, anchor='s')
         # button_create_note.pack()
-        button_edit_note.place(relx=0.95, rely=0.98, anchor='s')
+        button_edit_note.place(relx=0.95, rely=0.97, anchor='s')
 
         return frame
 
@@ -304,6 +306,17 @@ class MainWindow(ctk.CTk):
         # label.place(relx=0.5, rely=0.5, anchor=tk.N)
         label.grid(row=row, column=column, padx=25, pady=25)
 
+    def create_frame_edit(self, frame):
+        frame_edit = ctk.CTkFrame(frame,
+                                  fg_color="gray20",
+                                  corner_radius=10,
+                                  width=955,
+                                  height=50,
+                                  )
+        return frame_edit
+        # frame_edit.place(relx=0.479, rely=0.98, anchor='s')
+        # button.configure(image=self.icon_save, command=lambda: self.clicked_save_note(frame, frame_edit, button))
+
     def config_widget(self, widget, color, event):
         widget.configure(fg_color=color)
 
@@ -331,6 +344,9 @@ class MainWindow(ctk.CTk):
         else:
             self.settings_frame.pack_forget()
 
+    def delete_frame(self, frame):
+        frame.pack_forget()
+
     def clicked_home_button(self):
         self.select_frame_by_name('home')
 
@@ -346,19 +362,14 @@ class MainWindow(ctk.CTk):
     def open_note(self, date):
         print('OPEEEEEENNN')
 
-    def clicked_edit_note(self, frame, button):
-        frame_edit = ctk.CTkFrame(frame,
-                                  fg_color="gray50",
-                                  corner_radius=10,
-                                  width=950,
-                                  height=50,
-                                  )
-        frame_edit.place(relx=0.479, rely=0.98, anchor='s')
-        button.configure(image=self.icon_save, command=lambda: self.clicked_save_note(frame, frame_edit, button))
+    # def clicked_edit_note(self, frame):
+    #     frame.place(relx=0.479, rely=0.98, anchor='s')
+    #     # button.configure(image=self.icon_save, command=lambda: self.clicked_save_note(frame))
 
-    def clicked_save_note(self, frame, frame_edit, button):
-        frame_edit.forget()
-        button.configure(command=lambda: self.clicked_edit_note(frame, button), image=self.icon_save)
+    def clicked_save_note(self, frame):
+        pass
+        # elf.delete_frame(frame)
+        # button.configure(command=lambda: self.clicked_edit_note(frame, button), image=self.icon_save)
 
     def clicked_add_note(self):
         pass
