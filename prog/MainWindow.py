@@ -26,10 +26,17 @@ class MainWindow(ctk.CTk):
         super().__init__()
 
         # icons
-        icon_home = ctk.CTkImage(Image.open('icons/home.png'), size=(20, 20))
-        icon_archive = ctk.CTkImage(Image.open('icons/archive.png'), size=(20, 20))
-        icon_statistics = ctk.CTkImage(Image.open('icons/statistics.png'), size=(20, 20))
-        icon_settings = ctk.CTkImage(Image.open('icons/settings.png'), size=(20, 20))
+        self.icon_home = ctk.CTkImage(Image.open('icons/home.png'), size=(20, 20))
+        self.icon_archive = ctk.CTkImage(Image.open('icons/archive.png'), size=(20, 20))
+        self.icon_statistics = ctk.CTkImage(Image.open('icons/statistics.png'), size=(20, 20))
+        self.icon_settings = ctk.CTkImage(Image.open('icons/settings.png'), size=(20, 20))
+        self.icon_save = ctk.CTkImage(Image.open('icons/save.png'), size=(20, 20))
+        self.icon_edit = ctk.CTkImage(Image.open('icons/edit.png'), size=(30, 30))
+        self.icon_search = ctk.CTkImage(Image.open('icons/search.png'), size=(20, 20))
+        self.icon_sorted = ctk.CTkImage(Image.open('icons/sorted.png'), size=(20, 20))
+        self.icon_add_note = ctk.CTkImage(Image.open('icons/add2.png'), size=(30, 30))
+
+
 
         # create a window
         self.title('Planner')
@@ -42,7 +49,7 @@ class MainWindow(ctk.CTk):
         self.left_panel_frame.pack(fill=tk.Y, side=tk.LEFT)
         self.home_button = ctk.CTkButton(self.left_panel_frame,
                                          text='Home',
-                                         image=icon_home,
+                                         image=self.icon_home,
                                          fg_color='transparent',
                                          corner_radius=0,
                                          hover_color=("gray70", "gray30"),
@@ -53,7 +60,7 @@ class MainWindow(ctk.CTk):
         self.home_button.pack(fill=tk.X, side=tk.TOP)
         self.archive_button = ctk.CTkButton(self.left_panel_frame,
                                             text='Archive',
-                                            image=icon_archive,
+                                            image=self.icon_archive,
                                             fg_color='transparent',
                                             corner_radius=0,
                                             anchor="w",
@@ -63,7 +70,7 @@ class MainWindow(ctk.CTk):
         self.archive_button.pack(fill=tk.X, side=tk.TOP)
         self.statistics_button = ctk.CTkButton(self.left_panel_frame,
                                                text='Statistics',
-                                               image=icon_statistics,
+                                               image=self.icon_statistics,
                                                fg_color='transparent',
                                                corner_radius=0,
                                                anchor="w",
@@ -75,7 +82,7 @@ class MainWindow(ctk.CTk):
         # self.events_button.pack(fill=tk.X, side=tk.TOP)
         self.settings_button = ctk.CTkButton(self.left_panel_frame,
                                              text='Settings',
-                                             image=icon_settings,
+                                             image=self.icon_settings,
                                              fg_color='transparent',
                                              corner_radius=0,
                                              anchor="w",
@@ -96,25 +103,68 @@ class MainWindow(ctk.CTk):
         # settings frame
         self.settings_frame = self.create_settings_frame()
 
-        self.select_frame_by_name('home')
+        # self.select_frame_by_name('home')
 
     def create_home_frame(self, ):
+
         frame = ctk.CTkFrame(self, width=WIDTH, height=HEIGHT, corner_radius=0, fg_color='transparent', )
+
+        date_time = '12/12/2015'
+        data = ''
+        entry = ctk.CTkEntry(frame, placeholder_text=date_time, width=120, height=30, border_width=2)
+        entry.place(relx=0.15, rely=0.03, anchor='ne')
+
+        frame_tags = ctk.CTkFrame(frame,
+                                  fg_color='gray15',
+                                  corner_radius=10,
+                                  width=850,
+                                  height=45,
+                                  border_color='red',
+                                  )
+
+        frame_tags.place(relx=0.57, rely=0.02, anchor='n')
+        frame_tags.pack_propagate(False)
+        frame_tags.grid_propagate(False)
+
+        self.create_list_tags(frame_tags)
+
+        frame_view = ctk.CTkFrame(frame,
+                                  fg_color='gray15',
+                                  corner_radius=10,
+                                  width=1000,
+                                  height=550,
+                                  border_color='red',
+                                  )
+        frame_view.place(relx=0.5, rely=0.11, anchor='n')
+        frame_view.pack_propagate(False)
+        frame_view.grid_propagate(False)
+
+        # frame_edit_menu = ctk.CTkFrame(frame)
+
+        button_edit_note = ctk.CTkButton(frame,
+                                         text='',
+                                         image=self.icon_edit,
+                                         fg_color='transparent',
+                                         # anchor="N",
+                                         width=10,
+                                         height=10,
+                                         # border_spacing=10,
+                                         # corner_radius=100,
+                                         hover_color=("gray70", "gray30"),
+                                         command=lambda: self.clicked_edit_note(frame, button_edit_note))
+        # button_create_note.pack()
+        button_edit_note.place(relx=0.95, rely=0.98, anchor='s')
 
         return frame
 
     def create_archive_frame(self, ):
-        icon_search = ctk.CTkImage(Image.open('icons/search.png'), size=(20, 20))
-        icon_sorted = ctk.CTkImage(Image.open('icons/sorted.png'), size=(20, 20))
-        icon_add_note = ctk.CTkImage(Image.open('icons/add2.png'), size=(30, 30))
-
         frame = ctk.CTkFrame(self, width=WIDTH, height=HEIGHT, corner_radius=0, fg_color='transparent', )
         entry = ctk.CTkEntry(frame, placeholder_text='Поиск', width=600, height=30, border_width=2)
         # entry.pack(padx=20, pady=10)
         entry.place(relx=0.5, rely=0.02, anchor=tk.N)
         button_search = ctk.CTkButton(frame,
                                       text='',
-                                      image=icon_search,
+                                      image=self.icon_search,
                                       fg_color='transparent',
                                       corner_radius=0,
                                       # anchor="N",
@@ -127,7 +177,7 @@ class MainWindow(ctk.CTk):
         button_search.place(relx=0.81, rely=0.01, anchor=tk.N)
         button_sorted = ctk.CTkButton(frame,
                                       text='Недавние',
-                                      image=icon_sorted,
+                                      image=self.icon_sorted,
                                       fg_color='transparent',
                                       corner_radius=0,
                                       # anchor="N",
@@ -180,7 +230,7 @@ class MainWindow(ctk.CTk):
 
         button_create_note = ctk.CTkButton(frame,
                                            text='',
-                                           image=icon_add_note,
+                                           image=self.icon_add_note,
                                            fg_color='transparent',
                                            # anchor="N",
                                            width=10,
@@ -204,7 +254,7 @@ class MainWindow(ctk.CTk):
         tags = ['#idea', '#food', '#school', ]
         index = 0
         for tag in tags:
-            color = random.choice(COLORS)
+            # color = random.choice(COLORS)
             tag_button = ctk.CTkButton(frame,
                                        text=tag,
                                        # fg_color=color[0],
@@ -295,6 +345,20 @@ class MainWindow(ctk.CTk):
 
     def open_note(self, date):
         print('OPEEEEEENNN')
+
+    def clicked_edit_note(self, frame, button):
+        frame_edit = ctk.CTkFrame(frame,
+                                  fg_color="gray50",
+                                  corner_radius=10,
+                                  width=950,
+                                  height=50,
+                                  )
+        frame_edit.place(relx=0.479, rely=0.98, anchor='s')
+        button.configure(image=self.icon_save, command=lambda: self.clicked_save_note(frame, frame_edit, button))
+
+    def clicked_save_note(self, frame, frame_edit, button):
+        frame_edit.forget()
+        button.configure(command=lambda: self.clicked_edit_note(frame, button), image=self.icon_save)
 
     def clicked_add_note(self):
         pass
