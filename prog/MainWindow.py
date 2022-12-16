@@ -1,13 +1,19 @@
 import tkinter as tk
+import random
 from tkinter import *
 import customtkinter
 import customtkinter as ctk
 from PIL import Image, ImageTk
+from functools import partial
 
 HEIGHT = 700
 WIDTH = 1200
 
-COLORS = ['', '', '']
+COLORS = [('#ED8C8A', '#FF9494'),
+          ('#EDE0A4', '#FFF2B0'),
+          ('#DA95EB', '#ECA1FF'),
+          ('#7CEBA1', '#87FFA9'),
+          ('#8988EB', '#9A94FF')]
 
 ctk.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
 ctk.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -128,6 +134,15 @@ class MainWindow(ctk.CTk):
                                       hover_color=("gray70", "gray30"),
                                       command=self.clicked_sorted)
         button_sorted.place(relx=0.88, rely=0.01, anchor=tk.N)
+
+        # frame_tags = ctk.CTkFrame(frame,
+        #                           fg_color='red',
+        #                           corner_radius=0,
+        #                           width=frame.winfo_width(),
+        #                           height=40,
+        #                           border_color='red',
+        #                           )
+        # frame_tags.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
         self.create_note(frame)
         return frame
 
@@ -144,10 +159,30 @@ class MainWindow(ctk.CTk):
         pass
 
     def create_note(self, frame):
-        light_color = ''
-        dark_color = ''
-        note = ctk.CTkButton(frame, fg_color=('#abbbbb', '#ababba'))
-        note.place(relx=0.5, rely=0.5)
+        color = random.choice(COLORS)
+        text_color = '#272138'
+        # font =
+        date = '16.12.2023'
+        check_tasks = '1/10'
+        data_preview = 'today \nim so tired 123456' + ' . . . '
+        label = ctk.CTkLabel(frame,
+                             text='\n' + date + '\t\t' + check_tasks + '\n\n' + data_preview,
+                             font=('', 14, tk.font.BOLD),
+                             text_color=text_color,
+                             justify='left',
+                             fg_color=color[0],
+                             width=250,
+                             height=250,
+                             anchor='n',
+                             corner_radius=10,
+                             )
+        label.bind('<Button-1>', lambda e: self.open_note(date))
+        label.bind('<Enter>', partial(self.config_widget, label, color[0]))
+        label.bind('<Leave>', partial(self.config_widget, label, color[1]))
+        label.place(relx=0.5, rely=0.5, anchor=tk.N)
+
+    def config_widget(self, widget, color, event):
+        widget.configure(fg_color=color)
 
     def select_frame_by_name(self, name):
         self.home_button.configure(fg_color=("gray75", "gray25") if name == "home" else "transparent")
@@ -184,6 +219,9 @@ class MainWindow(ctk.CTk):
 
     def clicked_settings_button(self):
         self.select_frame_by_name('settings')
+
+    def open_note(self, date):
+        print('OPEEEEEENNN')
 
     def clicked_search(self):
         pass
