@@ -1,7 +1,6 @@
 import tkinter as tk
 import random
 from tkinter import *
-import customtkinter
 import customtkinter as ctk
 from PIL import Image, ImageTk
 from functools import partial
@@ -35,6 +34,8 @@ class MainWindow(ctk.CTk):
         self.icon_search = ctk.CTkImage(Image.open('icons/search.png'), size=(20, 20))
         self.icon_sorted = ctk.CTkImage(Image.open('icons/sorted.png'), size=(20, 20))
         self.icon_add_note = ctk.CTkImage(Image.open('icons/add2.png'), size=(30, 30))
+
+        self.check = True
 
         # create a window
         self.title('Planner')
@@ -106,13 +107,13 @@ class MainWindow(ctk.CTk):
     def create_home_frame(self, ):
 
         frame = ctk.CTkFrame(self, width=WIDTH, height=HEIGHT, corner_radius=0, fg_color='transparent', )
-        ## frame.pack_configure(False)
+        # frame.pack_configure(False)
         # frame.pack_propagate(False)
         # frame.grid_propagate(False)
 
         date_time = '12/12/2015'
         data = ''
-        entry = ctk.CTkEntry(frame, placeholder_text=date_time, width=120, height=30, border_width=2)
+        entry = ctk.CTkEntry(frame, placeholder_text=date_time, width=120, height=30, border_width=2, state=DISABLED)
         entry.place(relx=0.15, rely=0.03, anchor='ne')
 
         frame_tags = ctk.CTkFrame(frame,
@@ -140,23 +141,24 @@ class MainWindow(ctk.CTk):
         frame_view.pack_propagate(False)
         frame_view.grid_propagate(False)
 
-        button_edit_note = ctk.CTkButton(frame,
-                                         text='',
-                                         image=self.icon_save,
-                                         fg_color='transparent',
-                                         # anchor="N",
-                                         width=10,
-                                         height=10,
-                                         # border_spacing=10,
-                                         # corner_radius=100,
-                                         hover_color=("gray70", "gray30"),
-                                         # command=lambda: self.clicked_save_note(frame)
-                                         )
         frame_edit = self.create_frame_edit(frame)
-        frame_edit.place(relx=0.479, rely=0.98, anchor='s')
-        # button_create_note.pack()
-        button_edit_note.place(relx=0.95, rely=0.97, anchor='s')
 
+        button_edit_save_note = ctk.CTkButton(frame,
+                                              text='',
+                                              image=self.icon_edit,
+                                              fg_color='transparent',
+                                              # anchor="N",
+                                              width=10,
+                                              height=10,
+                                              # border_spacing=10,
+                                              # corner_radius=100,
+                                              hover_color=("gray70", "gray30"),
+                                              command=lambda: self.clicked_edit_save_note(frame_edit,
+                                                                                          button_edit_save_note)
+                                              )
+
+        # button_create_note.pack()
+        button_edit_save_note.place(relx=0.95, rely=0.97, anchor='s')
         return frame
 
     def create_archive_frame(self, ):
@@ -314,8 +316,6 @@ class MainWindow(ctk.CTk):
                                   height=50,
                                   )
         return frame_edit
-        # frame_edit.place(relx=0.479, rely=0.98, anchor='s')
-        # button.configure(image=self.icon_save, command=lambda: self.clicked_save_note(frame, frame_edit, button))
 
     def config_widget(self, widget, color, event):
         widget.configure(fg_color=color)
@@ -345,7 +345,8 @@ class MainWindow(ctk.CTk):
             self.settings_frame.pack_forget()
 
     def delete_frame(self, frame):
-        frame.pack_forget()
+        print('delete')
+        frame.place_forget()
 
     def clicked_home_button(self):
         self.select_frame_by_name('home')
@@ -362,14 +363,21 @@ class MainWindow(ctk.CTk):
     def open_note(self, date):
         print('OPEEEEEENNN')
 
-    # def clicked_edit_note(self, frame):
-    #     frame.place(relx=0.479, rely=0.98, anchor='s')
-    #     # button.configure(image=self.icon_save, command=lambda: self.clicked_save_note(frame))
+    def clicked_save_note(self, frame_edit, button_edit_save_note):
+        self.check = True
+        button_edit_save_note.configure(image=self.icon_edit)
+        self.delete_frame(frame_edit)
 
-    def clicked_save_note(self, frame):
-        pass
-        # elf.delete_frame(frame)
-        # button.configure(command=lambda: self.clicked_edit_note(frame, button), image=self.icon_save)
+    def clicked_edit_note(self, frame_edit, button_edit_save_note):
+        self.check = False
+        button_edit_save_note.configure(image=self.icon_save)
+        frame_edit.place(relx=0.479, rely=0.98, anchor='s')
+
+    def clicked_edit_save_note(self, frame_edit, button_edit_save_note):
+        if self.check:
+            self.clicked_edit_note(frame_edit, button_edit_save_note)
+        else:
+            self.clicked_save_note(frame_edit, button_edit_save_note)
 
     def clicked_add_note(self):
         pass
