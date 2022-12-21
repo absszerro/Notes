@@ -7,7 +7,7 @@ from List_of_NuT import List_of_NuT as list_nut
 from tkinter import *
 from tkinter import ttk
 import customtkinter as ctk
-from PIL import Image
+from PIL import Image, ImageTk
 from functools import partial
 import Icons as icons
 import Params as p
@@ -24,6 +24,8 @@ class MainWindow(ctk.CTk):
 
         self.check = True
 
+        # self.iconbitmap('icons/betel-nut.png')
+
         self.all_nut = all_nt()
         self.list_nut = list_nut()
         self.nut = nt()
@@ -34,16 +36,31 @@ class MainWindow(ctk.CTk):
                         troughcolor='gray15', elementborderwidth=3, activebackground='gray15', highlightthickness=0)
 
         # create a window
-        self.title('Planner')
+        self.title('NuT')
         self.resizable(False, False)
         self.geometry(f"{p.WIDTH}x{p.HEIGHT}")
         # self.home_frame = None
+
+        # self.frame_icon = ctk.CTkFrame(self, width=p.WIDTH // 100 * 5, height=p.HEIGHT)
+        # self.frame_icon.place(relx=0.5, rely=0.5, anchor='n')
+
+        logo = ctk.CTkImage(Image.open('icons/betel-nut.png'), size=(250, 250))
+
+        self.label_welcome = ctk.CTkLabel(self, image=logo, text='Добро пожаловать\n в приложение NuT!',
+                                          compound='bottom', font=('Comic Sans MS', 36), text_color='#E0F5BC')
+        self.label_welcome.place(relx=0.55, rely=0.5, anchor='center')
+
+        self.button_welcome = ctk.CTkButton(self, text='Start!', font=('Comic Sans MS', 24),
+                                            # hover_color=(random.choice(p.COLORS)[0], random.choice(p.COLORS)[1]),
+                                            corner_radius=10)
+        self.button_welcome.place(relx=0.55, rely=0.8, anchor='center')
 
         # left panel frame
         self.left_panel_frame = ctk.CTkFrame(self, width=p.WIDTH // 100 * 5, height=p.HEIGHT)
         self.left_panel_frame.pack(fill=tk.Y, side=tk.LEFT)
         self.home_button = ctk.CTkButton(self.left_panel_frame,
                                          text='Главная',
+                                         font=('Comic Sans MS', 18),
                                          image=icons.icon_home,
                                          fg_color='transparent',
                                          corner_radius=0,
@@ -55,6 +72,7 @@ class MainWindow(ctk.CTk):
         self.home_button.pack(fill=tk.X, side=tk.TOP)
         self.archive_button = ctk.CTkButton(self.left_panel_frame,
                                             text='Архив',
+                                            font=('Comic Sans MS', 18),
                                             image=icons.icon_archive,
                                             fg_color='transparent',
                                             corner_radius=0,
@@ -65,6 +83,7 @@ class MainWindow(ctk.CTk):
         self.archive_button.pack(fill=tk.X, side=tk.TOP)
         self.statistics_button = ctk.CTkButton(self.left_panel_frame,
                                                text='Статистика',
+                                               font=('Comic Sans MS', 18),
                                                image=icons.icon_statistics,
                                                fg_color='transparent',
                                                corner_radius=0,
@@ -76,6 +95,7 @@ class MainWindow(ctk.CTk):
 
         self.settings_button = ctk.CTkButton(self.left_panel_frame,
                                              text='Настройки',
+                                             font=('Comic Sans MS', 18),
                                              image=icons.icon_settings,
                                              fg_color='transparent',
                                              corner_radius=0,
@@ -118,7 +138,6 @@ class MainWindow(ctk.CTk):
 
         frame_tags = f_tags(frame, 850, 45)
         frame_tags.frame_tags.place(relx=0.57, rely=0.02, anchor='n')
-
 
         self.create_list_tags(frame_tags)
 
