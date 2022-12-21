@@ -7,7 +7,7 @@ from PIL import Image
 from functools import partial
 import Icons as icons
 import Params as p
-
+from FrameTags import FrameTags as f_tags
 
 ctk.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
 ctk.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -106,27 +106,20 @@ class MainWindow(ctk.CTk):
                                             state=DISABLED)
         self.entry_data_time.place(relx=0.15, rely=0.03, anchor='ne')
 
-        frame_tags = ctk.CTkFrame(frame,
-                                  fg_color='gray15',
-                                  corner_radius=10,
-                                  width=850,
-                                  height=45,
-                                  border_color='red',
-                                  )
-
-        frame_tags.place(relx=0.57, rely=0.02, anchor='n')
-        frame_tags.pack_propagate(False)
-        frame_tags.grid_propagate(False)
+        frame_tags = f_tags(frame, 850, 45)
+        frame_tags.frame_tags.place(relx=0.57, rely=0.02, anchor='n')
+        frame_tags.frame_tags.pack_propagate(False)
+        frame_tags.frame_tags.grid_propagate(False)
 
         self.create_list_tags(frame_tags)
 
         self.frame_view = ctk.CTkFrame(frame,
-                                  fg_color='gray15',
-                                  corner_radius=10,
-                                  width=1000,
-                                  height=550,
-                                  border_color='red',
-                                  )
+                                       fg_color='gray15',
+                                       corner_radius=10,
+                                       width=1000,
+                                       height=550,
+                                       border_color='red',
+                                       )
         self.frame_view.place(relx=0.5, rely=0.11, anchor='n')
         self.frame_view.pack_propagate(False)
         self.frame_view.grid_propagate(False)
@@ -140,7 +133,7 @@ class MainWindow(ctk.CTk):
                               corner_radius=10)
         scrollbar = ttk.Scrollbar(self.frame_view, orient=VERTICAL, command=self.canvas_edit.yview)
         self.canvas_edit.configure(yscrollcommand=scrollbar.set)
-        #!!! заполнение second
+        # !!! заполнение second
         second.update()
         if second.winfo_reqheight() > 624:
             scrollbar.pack(side=RIGHT, fill=Y)
@@ -193,17 +186,10 @@ class MainWindow(ctk.CTk):
                                       command=self.clicked_sorted)
         button_sorted.place(relx=0.88, rely=0.01, anchor=tk.N)
 
-        frame_tags = ctk.CTkFrame(frame,
-                                  fg_color='gray15',
-                                  corner_radius=10,
-                                  width=1000,
-                                  height=45,
-                                  border_color='red',
-                                  )
-
-        frame_tags.place(relx=0.5, rely=0.13, anchor=tk.CENTER)
-        frame_tags.pack_propagate(False)
-        frame_tags.grid_propagate(False)
+        frame_tags = f_tags(frame, 1000, 45)
+        frame_tags.frame_tags.place(relx=0.5, rely=0.13, anchor=tk.CENTER)
+        frame_tags.frame_tags.pack_propagate(False)
+        frame_tags.frame_tags.grid_propagate(False)
 
         self.create_list_tags(frame_tags)
 
