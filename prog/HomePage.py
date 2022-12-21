@@ -24,7 +24,6 @@ class HomePage(tk.Frame):
         self.check = True
         self.master = master
         self.frame_home = self.create_frame()
-        print(type(self.frame_home))
 
     def create_frame(self):
         frame = ctk.CTkFrame(self.master, width=p.WIDTH, height=p.HEIGHT, corner_radius=0, fg_color='transparent', )
@@ -42,7 +41,7 @@ class HomePage(tk.Frame):
         frame_view = f_view(frame, 1000, 550)
         frame_view.frame_view.place(relx=0.5, rely=0.11, anchor='n')
 
-        frame_edit = f_edit(frame, 955, 50)
+        frame_edit = f_edit(frame, 955, 50, self.check, frame_view)
         frame_edit.frame_edit.update()
 
         button_edit_save_note = ctk.CTkButton(frame,

@@ -12,7 +12,7 @@ import Params as p
 class FrameTags(tk.Frame):
     def __init__(self, frame, width, height):
         super(FrameTags, self).__init__()
-        self.list = ['#idea', '#food', '#school', '#123']
+        self.list = ['#учеба', '#важное', '#работа', '#идеи']
         self._master = frame
         self.width = width
         self.height = height

@@ -50,11 +50,6 @@ class MainWindow(ctk.CTk):
                                           compound='bottom', font=('Comic Sans MS', 36), text_color='#E0F5BC')
         self.label_welcome.place(relx=0.55, rely=0.5, anchor='center')
 
-        self.button_welcome = ctk.CTkButton(self, text='Start!', font=('Comic Sans MS', 24),
-                                            # hover_color=(random.choice(p.COLORS)[0], random.choice(p.COLORS)[1]),
-                                            corner_radius=10)
-        self.button_welcome.place(relx=0.55, rely=0.8, anchor='center')
-
         # left panel frame
         self.left_panel_frame = ctk.CTkFrame(self, width=p.WIDTH // 100 * 5, height=p.HEIGHT)
         self.left_panel_frame.pack(fill=tk.Y, side=tk.LEFT)
@@ -120,6 +115,12 @@ class MainWindow(ctk.CTk):
         self.settings_frame = self.create_settings_frame()
 
         # self.select_frame_by_name('Главная')
+        # self.button_welcome = ctk.CTkButton(self, text='Start!', font=('Comic Sans MS', 24),
+                                            # hover_color=(random.choice(p.COLORS)[0], random.choice(p.COLORS)[1]),
+                                            #corner_radius=10,
+                                            # command=lambda e: self.select_frame_by_name('Главная')
+                                            #)
+        # self.button_welcome.place(relx=0.55, rely=0.8, anchor='center')
 
     def create_home_frame(self, ):
         style = ttk.Style()
@@ -130,7 +131,7 @@ class MainWindow(ctk.CTk):
         frame = ctk.CTkFrame(self, width=p.WIDTH, height=p.HEIGHT, corner_radius=0, fg_color='transparent', )
 
         date_time = StringVar()
-        date_time.set('12/12/2015')
+        # date_time.set('12/12/2015')
         data = ''
         self.entry_data_time = ctk.CTkEntry(frame, textvariable=date_time, width=120, height=30, border_width=2,
                                             state=DISABLED)
