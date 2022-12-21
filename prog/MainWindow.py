@@ -1,5 +1,6 @@
 import tkinter as tk
 import random
+from NuT import NuT as nt
 from tkinter import *
 from tkinter import ttk
 import customtkinter as ctk
