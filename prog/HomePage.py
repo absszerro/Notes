@@ -8,6 +8,7 @@ from functools import partial
 from NuT import NuT as nt
 import Icons as icons
 import Params as p
+from datetime import datetime
 from FrameTags import FrameTags as f_tags
 from FrameView import FrameView as f_view
 from FrameEdit import FrameEdit as f_edit
@@ -29,7 +30,7 @@ class HomePage(tk.Frame):
         frame = ctk.CTkFrame(self.master, width=p.WIDTH, height=p.HEIGHT, corner_radius=0, fg_color='transparent', )
 
         date_time = StringVar()
-        date_time.set('12/12/2015')
+        date_time.set(datetime.now().strftime("%d.%m.%Y"))
         data = ''
         self.entry_data_time = ctk.CTkEntry(frame, textvariable=date_time, width=120, height=30, border_width=2,
                                             state=DISABLED)

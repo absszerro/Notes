@@ -1,6 +1,9 @@
 import tkinter as tk
 import random
 from NuT import NuT as nt
+from All_Nut import All_Nut as all_nt
+from List_of_NuT import List_of_NuT as list_nut
+
 from tkinter import *
 from tkinter import ttk
 import customtkinter as ctk
@@ -20,6 +23,10 @@ class MainWindow(ctk.CTk):
         super().__init__()
 
         self.check = True
+
+        self.all_nut = all_nt()
+        self.list_nut = list_nut()
+        self.nut = nt()
 
         style = ttk.Style()
         style.theme_use('default')
@@ -66,8 +73,7 @@ class MainWindow(ctk.CTk):
                                                hover_color=("gray70", "gray30"),
                                                command=self.clicked_statistics_button)
         self.statistics_button.pack(fill=tk.X, side=tk.TOP)
-        # self.events_button = ctk.CTkButton(self.left_panel_frame, text='events')
-        # self.events_button.pack(fill=tk.X, side=tk.TOP)
+
         self.settings_button = ctk.CTkButton(self.left_panel_frame,
                                              text='Настройки',
                                              image=icons.icon_settings,

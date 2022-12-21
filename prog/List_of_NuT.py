@@ -3,8 +3,9 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 from NuT import NuT
 
+
 class List_of_NuT:
-    def __init__(self, date=datetime.now().strftime("%d.%m.%Y"), list_of_nuts = []):
+    def __init__(self, date=datetime.now().strftime("%d.%m.%Y"), list_of_nuts=[]):
         self.list_of_tags = set()
         if date != datetime.now().strftime("%d.%m.%Y"):
             try:
@@ -39,14 +40,14 @@ class List_of_NuT:
                 list_of_tags.add(tag)
         sorted(list_of_tags)
 
-    def NuTs_appender(self, message="", type=0, check=False, datetime=datetime.now().strftime("%H:%M"), NuTs = None):
+    def NuTs_appender(self, message="", type=0, check=False, datetime=datetime.now().strftime("%H:%M"), NuTs=None):
         if NuTs == None:
             self.list_of_nuts.append(NuT(message, type, check, datetime))
         else:
             self.list_of_nuts.append(NuTs)
         self.tags_appender(self.list_of_tags, self.list_of_nuts)
 
-    def give_prevue(self, n = 40, flag_of_date = False):
+    def give_prevue(self, n=40, flag_of_date=False):
         message = ""
         for elem in self.list_of_nuts:
             if len(message) < n:

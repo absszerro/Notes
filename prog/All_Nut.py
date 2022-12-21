@@ -3,8 +3,9 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 from List_of_NuT import List_of_NuT
 
+
 class All_Nut:
-    def __init__(self, list_of_nuts = []):
+    def __init__(self, list_of_nuts=[]):
         self.all_nuts_tags = set()
         nt_fo_type = List_of_NuT()
         for elem in list_of_nuts:
@@ -22,17 +23,17 @@ class All_Nut:
                 list_of_tags.add(tag)
         sorted(list_of_tags)
 
-    def all_nut_appender(self, date=datetime.now().strftime("%Y.%m.%d"), list_of_nuts = [], list_in_today = None):
+    def all_nut_appender(self, date=datetime.now().strftime("%Y.%m.%d"), list_of_nuts=[], list_in_today=None):
         self.list_of_nuts.append(List_of_NuT(date, list_of_nuts))
         self.tags_appender(self.all_nuts_tags, self.list_of_nuts)
 
-    def sorted_by_date(self, reverse = True):
+    def sorted_by_date(self, reverse=True):
         if reverse:
             return list(sorted(self.list_of_nuts, key=lambda x: x.date))
         else:
             return list(reversed(sorted(self.list_of_nuts, key=lambda x: x.date)))
 
-    def searcher(self, search_by = ""):
+    def searcher(self, search_by=""):
         if search_by == "":
             return []
         elif search_by[0] == "#":
@@ -80,7 +81,7 @@ class All_Nut:
                     xs[0] = xs[1]
                     ys[0] = ys[1]
                     xs[1] = counter
-                    ys[1] = tr/(tr+fl)
+                    ys[1] = tr / (tr + fl)
                     plt.plot(xs, ys)
                     plt.pause(0.5)
         plt.pause(1000)
