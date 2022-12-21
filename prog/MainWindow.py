@@ -116,10 +116,10 @@ class MainWindow(ctk.CTk):
 
         # self.select_frame_by_name('Главная')
         # self.button_welcome = ctk.CTkButton(self, text='Start!', font=('Comic Sans MS', 24),
-                                            # hover_color=(random.choice(p.COLORS)[0], random.choice(p.COLORS)[1]),
-                                            #corner_radius=10,
-                                            # command=lambda e: self.select_frame_by_name('Главная')
-                                            #)
+        # hover_color=(random.choice(p.COLORS)[0], random.choice(p.COLORS)[1]),
+        # corner_radius=10,
+        # command=lambda e: self.select_frame_by_name('Главная')
+        # )
         # self.button_welcome.place(relx=0.55, rely=0.8, anchor='center')
 
     def create_home_frame(self, ):
@@ -294,11 +294,15 @@ class MainWindow(ctk.CTk):
         notes = [0] * 10
         row = 0
         column = 0
-        for i in range(len(notes)):
+
+        notes = [['19.12.2022', '2/5', 'Отличный день, чтобы \nкупить подарки:\n1. Плюшевый медведь\n\t...'],
+                 ['20.12.2022', '3/7', 'Лабораторные работы:\n☑. ЛР 1\n☑. ЛР 2\n\t...'],
+                 ['21.12.2022', '2/6', '☑ Уборка\n☑ Магазин\n\t...']]
+        for i in range(3):
             if column == 4:
                 column = 0
                 row += 1
-            self.create_note(frame, '12.12.12', '1/10', 'jffkefweflefj', row, column)
+            self.create_note(frame, notes[i][0], notes[i][1], notes[i][2], row, column)
             column += 1
 
     def create_note(self, frame, date, check_tasks, data_preview, row, column):
