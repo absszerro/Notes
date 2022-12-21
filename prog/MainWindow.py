@@ -8,6 +8,7 @@ from functools import partial
 import Icons as icons
 import Params as p
 from FrameTags import FrameTags as f_tags
+from HomePage import HomePage as home_page
 
 ctk.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
 ctk.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -78,7 +79,10 @@ class MainWindow(ctk.CTk):
         self.settings_button.pack(fill=tk.X, side=tk.BOTTOM)
 
         # today frame
-        self.home_frame = self.create_home_frame()
+
+        self.home_frame = home_page(self).frame_home
+        # self.home_frame = self.create_home_frame()
+        print(type(self.home_frame))
 
         # archive frame
         self.archive_frame = self.create_archive_frame()
@@ -108,8 +112,7 @@ class MainWindow(ctk.CTk):
 
         frame_tags = f_tags(frame, 850, 45)
         frame_tags.frame_tags.place(relx=0.57, rely=0.02, anchor='n')
-        frame_tags.frame_tags.pack_propagate(False)
-        frame_tags.frame_tags.grid_propagate(False)
+
 
         self.create_list_tags(frame_tags)
 

@@ -26,12 +26,13 @@ class FrameTags(tk.Frame):
                              width=self.width,
                              height=self.height,
                              )
+        frame.pack_propagate(False)
+        frame.grid_propagate(False)
         self.create_list_tags(frame)
         return frame
 
     def create_list_tags(self, frame):
         index = 0
-        print(frame)
         for tag in self.list:
             tag_button = ctk.CTkButton(frame,
                                        text=tag,
