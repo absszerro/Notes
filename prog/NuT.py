@@ -1,6 +1,5 @@
 import pickle
 from datetime import datetime
-import numpy as np
 import matplotlib.pyplot as plt
 
 
@@ -9,7 +8,7 @@ class NuT:
         self.message = message
         self.type = type
         self.check = check
-        self.datetime = datetime
+        self.datetimedev = datetime
         self.tags = self.tags_searcher(self.message)
 
     def tags_searcher(self, str_with_tags):
