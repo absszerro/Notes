@@ -82,7 +82,6 @@ class MainWindow(ctk.CTk):
 
         self.home_frame = home_page(self).frame_home
         # self.home_frame = self.create_home_frame()
-        print(type(self.home_frame))
 
         # archive frame
         self.archive_frame = self.create_archive_frame()
@@ -305,6 +304,7 @@ class MainWindow(ctk.CTk):
         width = 20
         height = 20
         radius = 10
+        print('create in main!!!')
         frame_edit = ctk.CTkFrame(frame,
                                   fg_color="gray20",
                                   corner_radius=10,
