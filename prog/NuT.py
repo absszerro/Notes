@@ -3,6 +3,7 @@ from datetime import datetime
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 class NuT:
     def __init__(self, message="", type=0, check=False, datetime=datetime.now().strftime("%H:%M")):
         self.message = message
@@ -28,8 +29,9 @@ class NuT:
     def give_with_date_and_sl_n(self):
         return self.message + "\t" * 5 + "|" + self.datetime + "|" + "\n"
 
+
 class List_of_NuT:
-    def __init__(self, date=datetime.now().strftime("%d.%m.%Y"), list_of_nuts = []):
+    def __init__(self, date=datetime.now().strftime("%d.%m.%Y"), list_of_nuts=[]):
         self.list_of_tags = set()
         if datetime != datetime.now().strftime("%d-%b-%Y"):
             try:
@@ -64,14 +66,14 @@ class List_of_NuT:
                 list_of_tags.add(tag)
         sorted(list_of_tags)
 
-    def NuTs_appender(self, message="", type=0, check=False, datetime=datetime.now().strftime("%H:%M"), NuTs = None):
+    def NuTs_appender(self, message="", type=0, check=False, datetime=datetime.now().strftime("%H:%M"), NuTs=None):
         if NuTs == None:
             self.list_of_nuts.append(NuT(message, type, check, datetime))
         else:
             self.list_of_nuts.append(NuTs)
         self.tags_appender(self.list_of_tags, self.list_of_nuts)
 
-    def give_prevue(self, n = 40, flag_of_date = False):
+    def give_prevue(self, n=40, flag_of_date=False):
         message = ""
         for elem in self.list_of_nuts:
             if len(message) < n:
@@ -84,8 +86,9 @@ class List_of_NuT:
         else:
             return message
 
+
 class All_Nut:
-    def __init__(self, list_of_nuts = []):
+    def __init__(self, list_of_nuts=[]):
         self.all_nuts_tags = set()
         nt_fo_type = List_of_NuT()
         for elem in list_of_nuts:
@@ -103,20 +106,20 @@ class All_Nut:
                 list_of_tags.add(tag)
         sorted(list_of_tags)
 
-    def all_nut_appender(self, date=datetime.now().strftime("%Y.%m.%d"), list_of_nuts = [], list_in_today = None):
+    def all_nut_appender(self, date=datetime.now().strftime("%Y.%m.%d"), list_of_nuts=[], list_in_today=None):
         if list_in_today == None:
             self.list_of_nuts.append(List_of_NuT(date, list_of_nuts))
         else:
             self.list_of_nuts.append(list_in_today)
         self.tags_appender(self.all_nuts_tags, self.list_of_nuts)
 
-    def sorted_by_date(self, reverse = True):
+    def sorted_by_date(self, reverse=True):
         if reverse:
             return sorted(self.list_of_nuts, key=lambda x: x.date)
         else:
             return sorted(self.list_of_nuts, key=lambda x: x.date).reverse()
 
-    def searcher(self, search_by = ""):
+    def searcher(self, search_by=""):
         if search_by == "":
             return []
         elif search_by[0] == "#":
@@ -164,7 +167,7 @@ class All_Nut:
                     xs[0] = xs[1]
                     ys[0] = ys[1]
                     xs[1] = counter
-                    ys[1] = tr/(tr+fl)
+                    ys[1] = tr / (tr + fl)
                     plt.plot(xs, ys)
                     plt.pause(1)
         plt.pause(1000)
@@ -177,4 +180,3 @@ class All_Nut:
     def load_file_by_pikle(self):
         with open('data.pickle', 'rb') as f:
             return pickle.load(f)
-

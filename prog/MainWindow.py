@@ -1,9 +1,11 @@
 import tkinter as tk
 import random
 from tkinter import *
+from tkinter import ttk
 import customtkinter as ctk
-from PIL import Image, ImageTk
+from PIL import Image
 from functools import partial
+import Icons as icons
 
 HEIGHT = 700
 WIDTH = 1200
@@ -24,21 +26,6 @@ class MainWindow(ctk.CTk):
     def __init__(self, ):
         super().__init__()
 
-        # icons
-        self.icon_home = ctk.CTkImage(Image.open('icons/home.png'), size=(20, 20))
-        self.icon_archive = ctk.CTkImage(Image.open('icons/archive.png'), size=(20, 20))
-        self.icon_statistics = ctk.CTkImage(Image.open('icons/statistics.png'), size=(20, 20))
-        self.icon_settings = ctk.CTkImage(Image.open('icons/settings.png'), size=(20, 20))
-        self.icon_save = ctk.CTkImage(Image.open('icons/save.png'), size=(30, 30))
-        self.icon_edit = ctk.CTkImage(Image.open('icons/edit.png'), size=(30, 30))
-        self.icon_search = ctk.CTkImage(Image.open('icons/search.png'), size=(20, 20))
-        self.icon_sorted = ctk.CTkImage(Image.open('icons/sorted.png'), size=(20, 20))
-        self.icon_add_note = ctk.CTkImage(Image.open('icons/add2.png'), size=(30, 30))
-        self.icon_add_text = ctk.CTkImage(Image.open('icons/add_text.png'), size=(35, 35))
-        self.icon_add_num_list = ctk.CTkImage(Image.open('icons/add_num_list2.png'), size=(35, 35))
-        self.icon_add_mark_list = ctk.CTkImage(Image.open('icons/add_mark_list.png'), size=(35, 35))
-        self.icon_add_check_list = ctk.CTkImage(Image.open('icons/add_check_list.png'), size=(35, 35))
-
         self.check = True
 
         # create a window
@@ -52,7 +39,7 @@ class MainWindow(ctk.CTk):
         self.left_panel_frame.pack(fill=tk.Y, side=tk.LEFT)
         self.home_button = ctk.CTkButton(self.left_panel_frame,
                                          text='Главная',
-                                         image=self.icon_home,
+                                         image=icons.icon_home,
                                          fg_color='transparent',
                                          corner_radius=0,
                                          hover_color=("gray70", "gray30"),
@@ -63,7 +50,7 @@ class MainWindow(ctk.CTk):
         self.home_button.pack(fill=tk.X, side=tk.TOP)
         self.archive_button = ctk.CTkButton(self.left_panel_frame,
                                             text='Архив',
-                                            image=self.icon_archive,
+                                            image=icons.icon_archive,
                                             fg_color='transparent',
                                             corner_radius=0,
                                             anchor="w",
@@ -73,7 +60,7 @@ class MainWindow(ctk.CTk):
         self.archive_button.pack(fill=tk.X, side=tk.TOP)
         self.statistics_button = ctk.CTkButton(self.left_panel_frame,
                                                text='Статистика',
-                                               image=self.icon_statistics,
+                                               image=icons.icon_statistics,
                                                fg_color='transparent',
                                                corner_radius=0,
                                                anchor="w",
@@ -85,7 +72,7 @@ class MainWindow(ctk.CTk):
         # self.events_button.pack(fill=tk.X, side=tk.TOP)
         self.settings_button = ctk.CTkButton(self.left_panel_frame,
                                              text='Настройки',
-                                             image=self.icon_settings,
+                                             image=icons.icon_settings,
                                              fg_color='transparent',
                                              corner_radius=0,
                                              anchor="w",
@@ -151,7 +138,7 @@ class MainWindow(ctk.CTk):
 
         button_edit_save_note = ctk.CTkButton(frame,
                                               text='',
-                                              image=self.icon_edit,
+                                              image=icons.icon_edit,
                                               fg_color='transparent',
                                               # anchor="N",
                                               width=10,
@@ -169,12 +156,12 @@ class MainWindow(ctk.CTk):
 
     def create_archive_frame(self, ):
         frame = ctk.CTkFrame(self, width=WIDTH, height=HEIGHT, corner_radius=0, fg_color='transparent', )
-        self.entry_search = ctk.CTkEntry(frame, placeholder_text='Поиск', width=600, height=30, border_width=2)
+        entry_search = ctk.CTkEntry(frame, placeholder_text='Поиск', width=600, height=30, border_width=2)
         # self.entry_search.pack(padx=20, pady=10)
-        self.entry_search.place(relx=0.5, rely=0.02, anchor=tk.N)
+        entry_search.place(relx=0.5, rely=0.02, anchor=tk.N)
         button_search = ctk.CTkButton(frame,
                                       text='',
-                                      image=self.icon_search,
+                                      image=icons.icon_search,
                                       fg_color='transparent',
                                       corner_radius=0,
                                       # anchor="N",
@@ -187,7 +174,7 @@ class MainWindow(ctk.CTk):
         button_search.place(relx=0.81, rely=0.01, anchor=tk.N)
         button_sorted = ctk.CTkButton(frame,
                                       text='Недавние',
-                                      image=self.icon_sorted,
+                                      image=icons.icon_sorted,
                                       fg_color='transparent',
                                       corner_radius=0,
                                       # anchor="N",
@@ -212,12 +199,6 @@ class MainWindow(ctk.CTk):
 
         self.create_list_tags(frame_tags)
 
-        # frame_notes = tk.Frame(frame,
-        #                        background='gray15',
-        #                        # corner_radius=10,
-        #                        width=1000,
-        #                        height=500, )
-
         frame_notes = ctk.CTkFrame(frame,
                                    fg_color='gray15',
                                    corner_radius=10,
@@ -225,34 +206,70 @@ class MainWindow(ctk.CTk):
                                    height=500,
                                    border_color='red',
                                    )
+
+        # frame_notes = Frame(frame, width=1000, height=500, )
+        # frame_notes.pack(fill=BOTH, expand=1)
         frame_notes.place(relx=0.5, rely=0.20, anchor='n')
         frame_notes.pack_propagate(False)
         frame_notes.grid_propagate(False)
 
-        # scroll = ctk.CTkScrollbar(frame_notes, orientation='vertical', command=frame_notes.yview)
-        # scroll.grid(row=0, column=5, sticky='NS')
-        # scroll.pack(side='right', fill=tk.Y)
-        # frame_notes['yscrollcommand'] = scroll.set
+        style = ttk.Style()
+        print(style.theme_names())
+        style.theme_use('default')
+        style.configure("Vertical.TScrollbar", background="gray15", bordercolor="gray15", arrowcolor="gray30",
+                        troughcolor='gray15', elementborderwidth=3, activebackground='gray15', highlightthickness=0)
 
-        self.create_list_notes(frame_notes)
+        # add scroll
+        self.canvas = Canvas(frame_notes, bg='gray15')
+        # second = Frame(self.canvas, background= 'RED',)
+        second = ctk.CTkFrame(self.canvas,
+                              fg_color='gray15',
+                              corner_radius=10,
 
-        # frame_notes.configure(yscrollcommand=scroll.set)
+                              border_color='red',
+                              )
+        scrollbar = ttk.Scrollbar(frame_notes, orient=VERTICAL, command=self.canvas.yview)
+        self.canvas.configure(yscrollcommand=scrollbar.set)
+
+        scrollbar.pack(side=RIGHT, fill=Y)
+
+        # self.canvas = Canvas(frame)
+        # self.canvas.place(relx=0.5, rely=0.20, anchor='n', width=1000, height=500)
+        self.canvas.pack(side=LEFT, fill=BOTH, expand=1)
+        self.canvas.create_window((0, 0), window=second, anchor='nw')
+
+        # scrollbar = tk.Scrollbar(frame, orient=VERTICAL, command=self.canvas.yview())
+
+        self.canvas.bind('<Configure>', lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all")))
+
+        # self.create_list_notes(frame_notes)
+        self.create_list_notes(second)
 
         button_create_note = ctk.CTkButton(frame,
                                            text='',
-                                           image=self.icon_add_note,
+                                           image=icons.icon_add_note,
                                            fg_color='transparent',
                                            # anchor="N",
                                            width=10,
                                            height=10,
-                                           # border_spacing=10,
-                                           # corner_radius=100,
                                            hover_color=("gray70", "gray30"),
                                            command=self.clicked_add_note)
-        # button_create_note.pack()
         button_create_note.place(relx=0.95, rely=0.98, anchor='s')
 
         return frame
+
+    def _bound_to_mousewheel(self, event):
+        self.canvas.bind_all("<MouseWheel>", self._on_mousewheel)
+
+    def _unbound_to_mousewheel(self, event):
+        self.canvas.unbind_all("<MouseWheel>")
+
+    def _on_mousewheel(self, event):
+        self.canvas.yview_scroll(-1 * (event.delta / 120), "units")
+
+    def onFrameConfigure(self, canvas):
+        '''Reset the scroll region to encompass the inner frame'''
+        canvas.configure(scrollregion=canvas.bbox("all"))
 
     def create_statistics_frame(self):
         return ctk.CTkFrame(self, width=WIDTH, height=HEIGHT, corner_radius=0, fg_color='green')
@@ -278,7 +295,7 @@ class MainWindow(ctk.CTk):
             index += 1
 
     def create_list_notes(self, frame):
-        notes = [0] * 5
+        notes = [0] * 10
         row = 0
         column = 0
         for i in range(len(notes)):
@@ -328,7 +345,7 @@ class MainWindow(ctk.CTk):
         frame_edit.grid_propagate(False)
         button_text_add = ctk.CTkButton(frame_edit,
                                         text='',
-                                        image=self.icon_add_text,
+                                        image=icons.icon_add_text,
                                         fg_color='transparent',
                                         width=width,
                                         height=height,
@@ -338,7 +355,7 @@ class MainWindow(ctk.CTk):
                                         )
         button_num_list = ctk.CTkButton(frame_edit,
                                         text='',
-                                        image=self.icon_add_num_list,
+                                        image=icons.icon_add_num_list,
                                         fg_color='transparent',
                                         width=width,
                                         height=height,
@@ -348,7 +365,7 @@ class MainWindow(ctk.CTk):
                                         )
         button_mark_list_add = ctk.CTkButton(frame_edit,
                                              text='',
-                                             image=self.icon_add_mark_list,
+                                             image=icons.icon_add_mark_list,
                                              fg_color='transparent',
                                              width=width,
                                              height=height,
@@ -358,7 +375,7 @@ class MainWindow(ctk.CTk):
                                              )
         button_check_list_add = ctk.CTkButton(frame_edit,
                                               text='',
-                                              image=self.icon_add_check_list,
+                                              image=icons.icon_add_check_list,
                                               fg_color='transparent',
                                               width=width,
                                               height=height,
@@ -420,12 +437,12 @@ class MainWindow(ctk.CTk):
 
     def clicked_save_note(self, frame_edit, button_edit_save_note):
         self.check = True
-        button_edit_save_note.configure(image=self.icon_edit)
+        button_edit_save_note.configure(image=icons.icon_edit)
         self.delete_frame(frame_edit)
 
     def clicked_edit_note(self, frame_edit, button_edit_save_note):
         self.check = False
-        button_edit_save_note.configure(image=self.icon_save)
+        button_edit_save_note.configure(image=icons.icon_save)
         frame_edit.place(relx=0.479, rely=0.98, anchor='s')
 
     def clicked_edit_save_note(self, frame_edit, button_edit_save_note):
