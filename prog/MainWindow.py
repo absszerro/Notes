@@ -34,6 +34,10 @@ class MainWindow(ctk.CTk):
         self.icon_search = ctk.CTkImage(Image.open('icons/search.png'), size=(20, 20))
         self.icon_sorted = ctk.CTkImage(Image.open('icons/sorted.png'), size=(20, 20))
         self.icon_add_note = ctk.CTkImage(Image.open('icons/add2.png'), size=(30, 30))
+        self.icon_add_text = ctk.CTkImage(Image.open('icons/add_text.png'), size=(35, 35))
+        self.icon_add_num_list = ctk.CTkImage(Image.open('icons/add_num_list2.png'), size=(35, 35))
+        self.icon_add_mark_list = ctk.CTkImage(Image.open('icons/add_mark_list.png'), size=(35, 35))
+        self.icon_add_check_list = ctk.CTkImage(Image.open('icons/add_check_list.png'), size=(35, 35))
 
         self.check = True
 
@@ -47,7 +51,7 @@ class MainWindow(ctk.CTk):
         self.left_panel_frame = ctk.CTkFrame(self, width=WIDTH // 100 * 5, height=HEIGHT)
         self.left_panel_frame.pack(fill=tk.Y, side=tk.LEFT)
         self.home_button = ctk.CTkButton(self.left_panel_frame,
-                                         text='Home',
+                                         text='Главная',
                                          image=self.icon_home,
                                          fg_color='transparent',
                                          corner_radius=0,
@@ -58,7 +62,7 @@ class MainWindow(ctk.CTk):
                                          command=self.clicked_home_button)
         self.home_button.pack(fill=tk.X, side=tk.TOP)
         self.archive_button = ctk.CTkButton(self.left_panel_frame,
-                                            text='Archive',
+                                            text='Архив',
                                             image=self.icon_archive,
                                             fg_color='transparent',
                                             corner_radius=0,
@@ -68,7 +72,7 @@ class MainWindow(ctk.CTk):
                                             command=self.clicked_archive_button)
         self.archive_button.pack(fill=tk.X, side=tk.TOP)
         self.statistics_button = ctk.CTkButton(self.left_panel_frame,
-                                               text='Statistics',
+                                               text='Статистика',
                                                image=self.icon_statistics,
                                                fg_color='transparent',
                                                corner_radius=0,
@@ -80,7 +84,7 @@ class MainWindow(ctk.CTk):
         # self.events_button = ctk.CTkButton(self.left_panel_frame, text='events')
         # self.events_button.pack(fill=tk.X, side=tk.TOP)
         self.settings_button = ctk.CTkButton(self.left_panel_frame,
-                                             text='Settings',
+                                             text='Настройки',
                                              image=self.icon_settings,
                                              fg_color='transparent',
                                              corner_radius=0,
@@ -93,7 +97,7 @@ class MainWindow(ctk.CTk):
         # today frame
         self.home_frame = self.create_home_frame()
 
-        # archive frame
+        # Архив frame
         self.archive_frame = self.create_archive_frame()
 
         # statistics frame
@@ -102,7 +106,7 @@ class MainWindow(ctk.CTk):
         # settings frame
         self.settings_frame = self.create_settings_frame()
 
-        # self.select_frame_by_name('home')
+        # self.select_frame_by_name('Главная')
 
     def create_home_frame(self, ):
 
@@ -111,10 +115,12 @@ class MainWindow(ctk.CTk):
         # frame.pack_propagate(False)
         # frame.grid_propagate(False)
 
-        date_time = '12/12/2015'
+        date_time = StringVar()
+        date_time.set('12/12/2015')
         data = ''
-        entry = ctk.CTkEntry(frame, placeholder_text=date_time, width=120, height=30, border_width=2, state=DISABLED)
-        entry.place(relx=0.15, rely=0.03, anchor='ne')
+        self.entry_data_time = ctk.CTkEntry(frame, textvariable=date_time, width=120, height=30, border_width=2,
+                                            state=DISABLED)
+        self.entry_data_time.place(relx=0.15, rely=0.03, anchor='ne')
 
         frame_tags = ctk.CTkFrame(frame,
                                   fg_color='gray15',
@@ -163,9 +169,9 @@ class MainWindow(ctk.CTk):
 
     def create_archive_frame(self, ):
         frame = ctk.CTkFrame(self, width=WIDTH, height=HEIGHT, corner_radius=0, fg_color='transparent', )
-        entry = ctk.CTkEntry(frame, placeholder_text='Поиск', width=600, height=30, border_width=2)
-        # entry.pack(padx=20, pady=10)
-        entry.place(relx=0.5, rely=0.02, anchor=tk.N)
+        self.entry_search = ctk.CTkEntry(frame, placeholder_text='Поиск', width=600, height=30, border_width=2)
+        # self.entry_search.pack(padx=20, pady=10)
+        self.entry_search.place(relx=0.5, rely=0.02, anchor=tk.N)
         button_search = ctk.CTkButton(frame,
                                       text='',
                                       image=self.icon_search,
@@ -309,37 +315,86 @@ class MainWindow(ctk.CTk):
         label.grid(row=row, column=column, padx=25, pady=25)
 
     def create_frame_edit(self, frame):
+        width = 20
+        height = 20
+        radius = 10
         frame_edit = ctk.CTkFrame(frame,
                                   fg_color="gray20",
                                   corner_radius=10,
                                   width=955,
                                   height=50,
                                   )
+        # frame.grid_propagate(False)
+        frame_edit.grid_propagate(False)
+        button_text_add = ctk.CTkButton(frame_edit,
+                                        text='',
+                                        image=self.icon_add_text,
+                                        fg_color='transparent',
+                                        width=width,
+                                        height=height,
+                                        corner_radius=radius,
+                                        hover_color=("gray70", "gray30"),
+                                        command=self.clicked_add_note
+                                        )
+        button_num_list = ctk.CTkButton(frame_edit,
+                                        text='',
+                                        image=self.icon_add_num_list,
+                                        fg_color='transparent',
+                                        width=width,
+                                        height=height,
+                                        corner_radius=radius,
+                                        hover_color=("gray70", "gray30"),
+
+                                        )
+        button_mark_list_add = ctk.CTkButton(frame_edit,
+                                             text='',
+                                             image=self.icon_add_mark_list,
+                                             fg_color='transparent',
+                                             width=width,
+                                             height=height,
+                                             corner_radius=radius,
+                                             hover_color=("gray70", "gray30"),
+
+                                             )
+        button_check_list_add = ctk.CTkButton(frame_edit,
+                                              text='',
+                                              image=self.icon_add_check_list,
+                                              fg_color='transparent',
+                                              width=width,
+                                              height=height,
+                                              corner_radius=radius,
+                                              hover_color=("gray70", "gray30"),
+
+                                              )
+        button_text_add.grid(row=0, column=0, padx=5, pady=5)
+        button_num_list.grid(row=0, column=1, padx=5, pady=5)
+        button_mark_list_add.grid(row=0, column=2, padx=5, pady=5)
+        button_check_list_add.grid(row=0, column=3, padx=5, pady=5)
         return frame_edit
 
     def config_widget(self, widget, color, event):
         widget.configure(fg_color=color)
 
     def select_frame_by_name(self, name):
-        self.home_button.configure(fg_color=("gray75", "gray25") if name == "home" else "transparent")
+        self.home_button.configure(fg_color=("gray75", "gray25") if name == "Главная" else "transparent")
         self.archive_button.configure(fg_color=("gray75", "gray25") if name == "frame_2" else "transparent")
         self.statistics_button.configure(fg_color=("gray75", "gray25") if name == "frame_3" else "transparent")
         self.settings_button.configure(fg_color=("gray75", "gray25") if name == "frame_3" else "transparent")
 
         # show selected frame
-        if name == "home":
+        if name == "Главная":
             self.home_frame.pack(fill=tk.X, side=tk.RIGHT)
         else:
             self.home_frame.pack_forget()
-        if name == "archive":
+        if name == "Архив":
             self.archive_frame.pack(fill=tk.X, side=tk.RIGHT)
         else:
             self.archive_frame.pack_forget()
-        if name == "statistics":
+        if name == "Статистика":
             self.statistics_frame.pack(fill=tk.X, side=tk.RIGHT)
         else:
             self.statistics_frame.pack_forget()
-        if name == "settings":
+        if name == "Настройки":
             self.settings_frame.pack(fill=tk.X, side=tk.RIGHT)
         else:
             self.settings_frame.pack_forget()
@@ -349,16 +404,16 @@ class MainWindow(ctk.CTk):
         frame.place_forget()
 
     def clicked_home_button(self):
-        self.select_frame_by_name('home')
+        self.select_frame_by_name('Главная')
 
     def clicked_archive_button(self):
-        self.select_frame_by_name('archive')
+        self.select_frame_by_name('Архив')
 
     def clicked_statistics_button(self):
-        self.select_frame_by_name('statistics')
+        self.select_frame_by_name('Статистика')
 
     def clicked_settings_button(self):
-        self.select_frame_by_name('settings')
+        self.select_frame_by_name('Настройки')
 
     def open_note(self, date):
         print('OPEEEEEENNN')
