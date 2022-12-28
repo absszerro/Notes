@@ -1,9 +1,18 @@
 import tkinter as tk
 import random
+
+import matplotlib
+from matplotlib.backends._backend_tk import NavigationToolbar2Tk
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
+
+from NuT import NuT as nt
+from All_Nut import All_Nut as all_nt
+
 from tkinter import *
 from tkinter import ttk
 import customtkinter as ctk
-from PIL import Image
+from PIL import Image, ImageTk
 from functools import partial
 import Icons as icons
 import Params as p
@@ -20,22 +29,38 @@ class MainWindow(ctk.CTk):
 
         self.check = True
 
+        # self.iconbitmap('icons/betel-nut.png')
+
+        self.all_nut = all_nt()  # все заметки
+        # self.list_nut = list_nut()
+        # self.nut = nt()
+
         style = ttk.Style()
         style.theme_use('default')
         style.configure("Vertical.TScrollbar", background="gray15", bordercolor="gray15", arrowcolor="gray30",
                         troughcolor='gray15', elementborderwidth=3, activebackground='gray15', highlightthickness=0)
 
         # create a window
-        self.title('Planner')
+        self.title('NuT')
         self.resizable(False, False)
         self.geometry(f"{p.WIDTH}x{p.HEIGHT}")
         # self.home_frame = None
+
+        # self.frame_icon = ctk.CTkFrame(self, width=p.WIDTH // 100 * 5, height=p.HEIGHT)
+        # self.frame_icon.place(relx=0.5, rely=0.5, anchor='n')
+
+        logo = ctk.CTkImage(Image.open('icons/betel-nut.png'), size=(250, 250))
+
+        self.label_welcome = ctk.CTkLabel(self, image=logo, text='Добро пожаловать\n в приложение NuT!',
+                                          compound='bottom', font=('Comic Sans MS', 36), text_color='#E0F5BC')
+        self.label_welcome.place(relx=0.55, rely=0.5, anchor='center')
 
         # left panel frame
         self.left_panel_frame = ctk.CTkFrame(self, width=p.WIDTH // 100 * 5, height=p.HEIGHT)
         self.left_panel_frame.pack(fill=tk.Y, side=tk.LEFT)
         self.home_button = ctk.CTkButton(self.left_panel_frame,
                                          text='Главная',
+                                         font=('Comic Sans MS', 18),
                                          image=icons.icon_home,
                                          fg_color='transparent',
                                          corner_radius=0,
@@ -47,6 +72,7 @@ class MainWindow(ctk.CTk):
         self.home_button.pack(fill=tk.X, side=tk.TOP)
         self.archive_button = ctk.CTkButton(self.left_panel_frame,
                                             text='Архив',
+                                            font=('Comic Sans MS', 18),
                                             image=icons.icon_archive,
                                             fg_color='transparent',
                                             corner_radius=0,
@@ -57,6 +83,7 @@ class MainWindow(ctk.CTk):
         self.archive_button.pack(fill=tk.X, side=tk.TOP)
         self.statistics_button = ctk.CTkButton(self.left_panel_frame,
                                                text='Статистика',
+                                               font=('Comic Sans MS', 18),
                                                image=icons.icon_statistics,
                                                fg_color='transparent',
                                                corner_radius=0,
@@ -65,10 +92,10 @@ class MainWindow(ctk.CTk):
                                                hover_color=("gray70", "gray30"),
                                                command=self.clicked_statistics_button)
         self.statistics_button.pack(fill=tk.X, side=tk.TOP)
-        # self.events_button = ctk.CTkButton(self.left_panel_frame, text='events')
-        # self.events_button.pack(fill=tk.X, side=tk.TOP)
+
         self.settings_button = ctk.CTkButton(self.left_panel_frame,
                                              text='Настройки',
+                                             font=('Comic Sans MS', 18),
                                              image=icons.icon_settings,
                                              fg_color='transparent',
                                              corner_radius=0,
@@ -93,6 +120,12 @@ class MainWindow(ctk.CTk):
         self.settings_frame = self.create_settings_frame()
 
         # self.select_frame_by_name('Главная')
+        # self.button_welcome = ctk.CTkButton(self, text='Start!', font=('Comic Sans MS', 24),
+        # hover_color=(random.choice(p.COLORS)[0], random.choice(p.COLORS)[1]),
+        # corner_radius=10,
+        # command=lambda e: self.select_frame_by_name('Главная')
+        # )
+        # self.button_welcome.place(relx=0.55, rely=0.8, anchor='center')
 
     def create_home_frame(self, ):
         style = ttk.Style()
@@ -103,7 +136,7 @@ class MainWindow(ctk.CTk):
         frame = ctk.CTkFrame(self, width=p.WIDTH, height=p.HEIGHT, corner_radius=0, fg_color='transparent', )
 
         date_time = StringVar()
-        date_time.set('12/12/2015')
+        # date_time.set('12/12/2015')
         data = ''
         self.entry_data_time = ctk.CTkEntry(frame, textvariable=date_time, width=120, height=30, border_width=2,
                                             state=DISABLED)
@@ -111,7 +144,6 @@ class MainWindow(ctk.CTk):
 
         frame_tags = f_tags(frame, 850, 45)
         frame_tags.frame_tags.place(relx=0.57, rely=0.02, anchor='n')
-
 
         self.create_list_tags(frame_tags)
 
@@ -240,11 +272,50 @@ class MainWindow(ctk.CTk):
 
         return frame
 
+    # matplotlib.use('TkAgg')
+
+    from matplotlib.figure import Figure as fig
+    from matplotlib.backends.backend_tkagg import (
+        FigureCanvasTkAgg,
+        NavigationToolbar2Tk
+    )
+
     def create_statistics_frame(self):
-        return ctk.CTkFrame(self, width=p.WIDTH, height=p.HEIGHT, corner_radius=0, fg_color='green')
+        frame = ctk.CTkFrame(self, width=p.WIDTH, height=p.HEIGHT, corner_radius=0, fg_color='transparent')
+        #
+        # # button_update_statistics = ctk.CTkButton(text='Обновить статистику')
+        #
+        # # figure = Figure(figsize=(3, 2), dpi=50)
+        #
+        # # create FigureCanvasTkAgg object
+        # figure_canvas = FigureCanvasTkAgg(figure, self)
+        #
+        # # create the toolbar
+        # NavigationToolbar2Tk(figure_canvas, self)
+        #
+        # # create axes
+        # axes = figure.add_subplot()
+        #
+        # data = {
+        #     'Python': 11.27,
+        #     'C': 11.16,
+        #     'Java': 10.46,
+        #     'C++': 7.5,
+        #     'C#': 5.26
+        # }
+        # languages = data.keys()
+        # popularity = data.values()
+        #
+        # # create the barchart
+        # axes.bar(languages, popularity)
+        # axes.set_title('Top 5 Programming Languages')
+        # axes.set_ylabel('Popularity')
+        #
+        # figure_canvas.get_tk_widget().place(relx=0.5, rely=0.5, anchor='center')
+        return frame
 
     def create_settings_frame(self):
-        return ctk.CTkFrame(self, width=p.WIDTH, height=p.HEIGHT, corner_radius=0, fg_color='blue')
+        return ctk.CTkFrame(self, width=p.WIDTH, height=p.HEIGHT, corner_radius=0, fg_color='transparent')
 
     def create_list_tags(self, frame):
         tags = ['#idea', '#food', '#school', ]
@@ -267,11 +338,15 @@ class MainWindow(ctk.CTk):
         notes = [0] * 10
         row = 0
         column = 0
-        for i in range(len(notes)):
+
+        notes = [['19.12.2022', '2/5', 'Отличный день, чтобы \nкупить подарки:\n1. Плюшевый медведь\n\t...'],
+                 ['20.12.2022', '3/7', 'Лабораторные работы:\n☑. ЛР 1\n☑. ЛР 2\n\t...'],
+                 ['21.12.2022', '2/6', '☑ Уборка\n☑ Магазин\n\t...']]
+        for i in range(3):
             if column == 4:
                 column = 0
                 row += 1
-            self.create_note(frame, '12.12.12', '1/10', 'jffkefweflefj', row, column)
+            self.create_note(frame, notes[i][0], notes[i][1], notes[i][2], row, column)
             column += 1
 
     def create_note(self, frame, date, check_tasks, data_preview, row, column):
@@ -406,7 +481,6 @@ class MainWindow(ctk.CTk):
         print('OPEEEEEENNN')
 
     def clicked_add_text_elem(self, frame):
-
         pass
 
     def clicked_save_note(self, frame_edit, button_edit_save_note):

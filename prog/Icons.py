@@ -2,6 +2,7 @@ import customtkinter as ctk
 from PIL import Image
 
 
+icon_main = ctk.CTkImage(Image.open('icons/betel-nut.png'), size=(50, 50))
 icon_home = ctk.CTkImage(Image.open('icons/home.png'), size=(20, 20))
 icon_archive = ctk.CTkImage(Image.open('icons/archive.png'), size=(20, 20))
 icon_statistics = ctk.CTkImage(Image.open('icons/statistics.png'), size=(20, 20))
