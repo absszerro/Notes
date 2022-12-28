@@ -8,20 +8,24 @@ from functools import partial
 import Icons as icons
 import Params as p
 from FrameView import FrameView as f_view
+from List_of_NuT import List_of_NuT as list_of_NuT
 
 
 class FrameEdit(tk.Frame):
     def __init__(self, frame, width, height, check, frame_view):
         super(FrameEdit, self).__init__()
-        print(frame_view)
         frame_view.update()
-        print(frame_view.winfo_reqwidth())
         self.check = check
         self._master = frame
         self.width = width
         self.height = height
         self.frame_view = frame_view
         self.frame_edit = self.create_frame()
+        # self.save_text = ''
+        # self.save_list_num = ''
+        # self.save_list_mark = ''
+        # self.save_task = ''
+        self.list_of_nut = list_of_NuT()
         self.index = 0
 
     def create_frame(self):
@@ -88,7 +92,6 @@ class FrameEdit(tk.Frame):
         if name == 'text':
             self.clicked_add_text_elem(self.index)
             # self.check = self._master.check
-            self.index += 1
         elif name == 'num_list':
             print('num_list')
             self.clicked_add_num_list(self.index)
@@ -101,34 +104,47 @@ class FrameEdit(tk.Frame):
 
     def insert_mark(self, event):
         self.mark_list.insert(END, '\n•\t')  # добавляем пробелы на следующей строке
+        self.mark_list.update()
+        self.mark_list.configure(height=self.mark_list.winfo_reqheight() + 1)
         return 'break'  # отменяем перевод строки от клавиши Enter
 
-    def insert_num(self, event):
-        self.text_num.insert(END, '\n1.\t')  # добавляем пробелы на следующей строке
+    def insert_num(self, event, num):
+        # self.num_list.insert(END, '\n1.\t')  # добавляем пробелы на следующей строке
+        self.num_list.insert(END, '\n' + str(num) + '.\t')  # добавляем пробелы на следующей строке
+        self.num_list.configure(height=self.num_list.winfo_reqheight() + 1)
+        # self.num_list.configure(height=self.num_list.get(1.0).count('\n')*30)
+        self.num += 1
         return 'break'  # отменяем перевод строки от клавиши Enter
 
     def clicked_add_text_elem(self, index):
-        new_text = ctk.CTkTextbox(self.frame_view, width=960, height=50, border_width=2)
+        text = ctk.CTkTextbox(self.frame_view, width=960, height=30, border_width=2, font=('', 18))
         print('add')
-        new_text.grid(row=index, column=0, sticky='n', ipadx=10, ipady=10, padx=10, pady=10)
+        text.grid(row=index, column=0, sticky='n', ipadx=10, ipady=10, padx=10, pady=10, columnspan=2)
+        self.index += 1
         # self.check = False
         # index += 1
 
     def clicked_check_list(self, index):
-        new_text = ctk.CTkTextbox(self.frame_view, width=960, height=50, border_width=2)
-        print('add')
-        new_text.grid(row=index, column=0, sticky='n', ipadx=10, ipady=10, padx=10, pady=10)
+        checkbox = ctk.CTkCheckBox(self.frame_view, text="", font=('', 18))
+        task = ctk.CTkEntry(self.frame_view, width=850, height=30, border_width=2, font=('', 18))
+        checkbox.grid(row=index, column=0, sticky='w', ipadx=0, ipady=10, padx=10, pady=10)
+        task.grid(row=index, column=1, ipadx=0, ipady=10, padx=0, pady=10)
+        self.index += 1
 
     def clicked_mark_list_add(self, index):
-        self.mark_list = ctk.CTkTextbox(self.frame_view, width=960, height=50, border_width=2)
-        self.mark_list.insert('0', '1.')
+        self.mark_list = ctk.CTkTextbox(self.frame_view, width=960, height=10, border_width=2, font=('', 18))
+        self.mark_list.insert('0.0', '•\t')
         print('add')
-        self.mark_list.grid(row=index, column=0, sticky='n', ipadx=10, ipady=10, padx=10, pady=10)
+        self.mark_list.grid(row=index, column=0, sticky='n', ipadx=10, ipady=10, padx=10, pady=10, columnspan=2)
         self.mark_list.bind('<Return>', self.insert_mark)
+        self.index += 1
 
     def clicked_add_num_list(self, index):
-        self.text_num = ctk.CTkTextbox(self.frame_view, width=960, height=50, border_width=2)
+        self.num = 2
+        self.num_list = ctk.CTkTextbox(self.frame_view, width=960, height=10, border_width=2, font=('', 18))
+        self.num_list.insert('0.0', '1.\t')
         # self.text_num['']
         print('add')
-        self.text_num.grid(row=index, column=0, sticky='n', ipadx=10, ipady=10, padx=10, pady=10)
-        self.text_num.bind('<Return>', self.insert_num)
+        self.num_list.grid(row=index, column=0, sticky='n', ipadx=10, ipady=10, padx=10, pady=10, columnspan=2)
+        self.num_list.bind('<Return>', lambda event: self.insert_num(event, self.num))
+        self.index += 1

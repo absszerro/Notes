@@ -47,7 +47,7 @@ class HomePage(tk.Frame):
         # frame_view.update()
         frame_edit = f_edit(frame, 955, 50, self.check, frame_view.second)
         frame_edit.frame_edit.update()
-
+        frame_view.second.update()
         button_edit_save_note = ctk.CTkButton(frame,
                                               text='',
                                               image=icons.icon_edit,
