@@ -13,12 +13,16 @@ from FrameView import FrameView as f_view
 class FrameEdit(tk.Frame):
     def __init__(self, frame, width, height, check, frame_view):
         super(FrameEdit, self).__init__()
-        # print(frame_view)
+        print(frame_view)
+        frame_view.update()
+        print(frame_view.winfo_reqwidth())
         self.check = check
         self._master = frame
         self.width = width
         self.height = height
+        self.frame_view = frame_view
         self.frame_edit = self.create_frame()
+        self.index = 0
 
     def create_frame(self):
         width = 20
@@ -52,7 +56,7 @@ class FrameEdit(tk.Frame):
                                         height=height,
                                         corner_radius=radius,
                                         hover_color=("gray70", "gray30"),
-                                        command=self.add_elem('num_list')
+                                        command=lambda: self.add_elem('num_list')
                                         )
         button_mark_list_add = ctk.CTkButton(frame,
                                              text='',
@@ -62,7 +66,7 @@ class FrameEdit(tk.Frame):
                                              height=height,
                                              corner_radius=radius,
                                              hover_color=("gray70", "gray30"),
-                                             command=self.add_elem('mark_list')
+                                             command=lambda: self.add_elem('mark_list')
                                              )
         button_check_list_add = ctk.CTkButton(frame,
                                               text='',
@@ -72,7 +76,7 @@ class FrameEdit(tk.Frame):
                                               height=height,
                                               corner_radius=radius,
                                               hover_color=("gray70", "gray30"),
-                                              command=self.add_elem('tasks')
+                                              command=lambda: self.add_elem('task')
                                               )
         button_text_add.grid(row=0, column=0, padx=5, pady=5)
         button_num_list.grid(row=0, column=1, padx=5, pady=5)
@@ -81,33 +85,50 @@ class FrameEdit(tk.Frame):
         return frame
 
     def add_elem(self, name):
-        # self.check = self.frame_home.check
-        # while not self.check:
-        #     index = 0
-        #     # добавить текстовое поле
-        #     if name == 'text':
-        #         print('text')
-        #         self.clicked_add_text_elem(index)
-        #     elif name == 'num_list':
-        #         self.clicked_add_num_list(index)
-        #     elif name == 'mark_list':
-        #         self.clicked_mark_list_add(index)
-        #     elif name == 'task':
-        #         self.clicked_check_list(index)
-        #     # print('errrrrrr')
-        pass
+        if name == 'text':
+            self.clicked_add_text_elem(self.index)
+            # self.check = self._master.check
+            self.index += 1
+        elif name == 'num_list':
+            print('num_list')
+            self.clicked_add_num_list(self.index)
+        elif name == 'mark_list':
+            print('mark_list')
+            self.clicked_mark_list_add(self.index)
+        elif name == 'task':
+            print('task')
+            self.clicked_check_list(self.index)
+
+    def insert_mark(self, event):
+        self.mark_list.insert(END, '\n•\t')  # добавляем пробелы на следующей строке
+        return 'break'  # отменяем перевод строки от клавиши Enter
+
+    def insert_num(self, event):
+        self.text_num.insert(END, '\n1.\t')  # добавляем пробелы на следующей строке
+        return 'break'  # отменяем перевод строки от клавиши Enter
 
     def clicked_add_text_elem(self, index):
-        # new_text = ctk.CTkEntry(self.frame_view, placeholder_text='Поиск', width=600, height=30, border_width=2)
-        # print('add')
-        # new_text.grid(row=index, column=0,)
-        pass
+        new_text = ctk.CTkTextbox(self.frame_view, width=960, height=50, border_width=2)
+        print('add')
+        new_text.grid(row=index, column=0, sticky='n', ipadx=10, ipady=10, padx=10, pady=10)
+        # self.check = False
+        # index += 1
 
     def clicked_check_list(self, index):
-        pass
+        new_text = ctk.CTkTextbox(self.frame_view, width=960, height=50, border_width=2)
+        print('add')
+        new_text.grid(row=index, column=0, sticky='n', ipadx=10, ipady=10, padx=10, pady=10)
 
     def clicked_mark_list_add(self, index):
-        pass
+        self.mark_list = ctk.CTkTextbox(self.frame_view, width=960, height=50, border_width=2)
+        self.mark_list.insert('0', '1.')
+        print('add')
+        self.mark_list.grid(row=index, column=0, sticky='n', ipadx=10, ipady=10, padx=10, pady=10)
+        self.mark_list.bind('<Return>', self.insert_mark)
 
     def clicked_add_num_list(self, index):
-        pass
+        self.text_num = ctk.CTkTextbox(self.frame_view, width=960, height=50, border_width=2)
+        # self.text_num['']
+        print('add')
+        self.text_num.grid(row=index, column=0, sticky='n', ipadx=10, ipady=10, padx=10, pady=10)
+        self.text_num.bind('<Return>', self.insert_num)

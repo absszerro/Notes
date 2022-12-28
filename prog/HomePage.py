@@ -13,6 +13,8 @@ from FrameTags import FrameTags as f_tags
 from FrameView import FrameView as f_view
 from FrameEdit import FrameEdit as f_edit
 
+from List_of_NuT import List_of_NuT as list_nut
+
 
 class HomePage(tk.Frame):
     def __init__(self, master):
@@ -24,6 +26,8 @@ class HomePage(tk.Frame):
         self.check = True
         self.master = master
         self.frame_home = self.create_frame()
+
+        self.list_nut = list_nut()
 
     def create_frame(self):
         frame = ctk.CTkFrame(self.master, width=p.WIDTH, height=p.HEIGHT, corner_radius=0, fg_color='transparent', )
@@ -38,10 +42,10 @@ class HomePage(tk.Frame):
         frame_tags = f_tags(frame, 850, 45)
         frame_tags.frame_tags.place(relx=0.57, rely=0.05, anchor=tk.CENTER)
 
-        frame_view = f_view(frame, 1000, 550)
+        frame_view = f_view(frame, 1000, 550, self.check)
         frame_view.frame_view.place(relx=0.5, rely=0.11, anchor='n')
-
-        frame_edit = f_edit(frame, 955, 50, self.check, frame_view)
+        # frame_view.update()
+        frame_edit = f_edit(frame, 955, 50, self.check, frame_view.second)
         frame_edit.frame_edit.update()
 
         button_edit_save_note = ctk.CTkButton(frame,
@@ -62,6 +66,8 @@ class HomePage(tk.Frame):
     def clicked_save_note(self, frame_edit, button_edit_save_note):
         self.check = True
         button_edit_save_note.configure(image=icons.icon_edit)
+        # !!! сохранить
+        self.save_info()
         frame_edit.place_forget()
 
     def clicked_edit_note(self, frame_edit, button_edit_save_note):
@@ -74,3 +80,6 @@ class HomePage(tk.Frame):
             self.clicked_edit_note(frame_edit, button_edit_save_note)
         else:
             self.clicked_save_note(frame_edit, button_edit_save_note)
+
+    def save_info(self,):
+        pass

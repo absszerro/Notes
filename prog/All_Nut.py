@@ -51,7 +51,7 @@ class All_Nut:
                     returned.append(elem)
             return returned
 
-    def give_stats(self):
+    def give_stat(self):
         counter = 0
         for elem in self.list_of_nuts:
             for eleme in elem.list_of_nuts:

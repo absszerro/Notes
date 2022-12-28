@@ -1,8 +1,13 @@
 import tkinter as tk
 import random
+
+import matplotlib
+from matplotlib.backends._backend_tk import NavigationToolbar2Tk
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
+
 from NuT import NuT as nt
 from All_Nut import All_Nut as all_nt
-from List_of_NuT import List_of_NuT as list_nut
 
 from tkinter import *
 from tkinter import ttk
@@ -26,9 +31,9 @@ class MainWindow(ctk.CTk):
 
         # self.iconbitmap('icons/betel-nut.png')
 
-        self.all_nut = all_nt()
-        self.list_nut = list_nut()
-        self.nut = nt()
+        self.all_nut = all_nt()  # все заметки
+        # self.list_nut = list_nut()
+        # self.nut = nt()
 
         style = ttk.Style()
         style.theme_use('default')
@@ -267,11 +272,50 @@ class MainWindow(ctk.CTk):
 
         return frame
 
+    # matplotlib.use('TkAgg')
+
+    from matplotlib.figure import Figure as fig
+    from matplotlib.backends.backend_tkagg import (
+        FigureCanvasTkAgg,
+        NavigationToolbar2Tk
+    )
+
     def create_statistics_frame(self):
-        return ctk.CTkFrame(self, width=p.WIDTH, height=p.HEIGHT, corner_radius=0, fg_color='green')
+        frame = ctk.CTkFrame(self, width=p.WIDTH, height=p.HEIGHT, corner_radius=0, fg_color='transparent')
+        #
+        # # button_update_statistics = ctk.CTkButton(text='Обновить статистику')
+        #
+        # # figure = Figure(figsize=(3, 2), dpi=50)
+        #
+        # # create FigureCanvasTkAgg object
+        # figure_canvas = FigureCanvasTkAgg(figure, self)
+        #
+        # # create the toolbar
+        # NavigationToolbar2Tk(figure_canvas, self)
+        #
+        # # create axes
+        # axes = figure.add_subplot()
+        #
+        # data = {
+        #     'Python': 11.27,
+        #     'C': 11.16,
+        #     'Java': 10.46,
+        #     'C++': 7.5,
+        #     'C#': 5.26
+        # }
+        # languages = data.keys()
+        # popularity = data.values()
+        #
+        # # create the barchart
+        # axes.bar(languages, popularity)
+        # axes.set_title('Top 5 Programming Languages')
+        # axes.set_ylabel('Popularity')
+        #
+        # figure_canvas.get_tk_widget().place(relx=0.5, rely=0.5, anchor='center')
+        return frame
 
     def create_settings_frame(self):
-        return ctk.CTkFrame(self, width=p.WIDTH, height=p.HEIGHT, corner_radius=0, fg_color='blue')
+        return ctk.CTkFrame(self, width=p.WIDTH, height=p.HEIGHT, corner_radius=0, fg_color='transparent')
 
     def create_list_tags(self, frame):
         tags = ['#idea', '#food', '#school', ]
@@ -437,7 +481,6 @@ class MainWindow(ctk.CTk):
         print('OPEEEEEENNN')
 
     def clicked_add_text_elem(self, frame):
-
         pass
 
     def clicked_save_note(self, frame_edit, button_edit_save_note):
