@@ -40,6 +40,6 @@ class FrameTags(tk.Frame):
                                        width=20,
                                        height=20,
                                        border_width=0,
-                                       )
+                                       font=('', 18))
             tag_button.grid(row=0, column=index, padx=10, pady=10)
             index += 1

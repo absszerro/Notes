@@ -13,7 +13,7 @@ from FrameTags import FrameTags as f_tags
 from FrameView import FrameView as f_view
 from FrameEdit import FrameEdit as f_edit
 
-from List_of_NuT import List_of_NuT as list_nut
+from List_of_NuT import List_of_NuT as list_nuts
 
 
 class HomePage(tk.Frame):
@@ -27,7 +27,8 @@ class HomePage(tk.Frame):
         self.master = master
         self.frame_home = self.create_frame()
 
-        self.list_nut = list_nut()
+        self.list_nuts = list_nuts()
+        # self.all_nut = all_nut
 
     def create_frame(self):
         frame = ctk.CTkFrame(self.master, width=p.WIDTH, height=p.HEIGHT, corner_radius=0, fg_color='transparent', )
@@ -36,7 +37,7 @@ class HomePage(tk.Frame):
         date_time.set(datetime.now().strftime("%d.%m.%Y"))
         data = ''
         self.entry_data_time = ctk.CTkEntry(frame, textvariable=date_time, width=120, height=30, border_width=2,
-                                            state=DISABLED)
+                                            state=DISABLED, font=('', 18))
         self.entry_data_time.place(relx=0.15, rely=0.03, anchor='ne')
 
         frame_tags = f_tags(frame, 850, 45)
@@ -45,8 +46,8 @@ class HomePage(tk.Frame):
         frame_view = f_view(frame, 1000, 550, self.check)
         frame_view.frame_view.place(relx=0.5, rely=0.11, anchor='n')
         # frame_view.update()
-        frame_edit = f_edit(frame, 955, 50, self.check, frame_view.second)
-        frame_edit.frame_edit.update()
+        self.frame_edit = f_edit(frame, 925, 50, self.check, frame_view.second)
+        self.frame_edit.frame_edit.update()
         frame_view.second.update()
         button_edit_save_note = ctk.CTkButton(frame,
                                               text='',
@@ -55,7 +56,7 @@ class HomePage(tk.Frame):
                                               width=10,
                                               height=10,
                                               hover_color=("gray70", "gray30"),
-                                              command=lambda: self.clicked_edit_save_note(frame_edit.frame_edit,
+                                              command=lambda: self.clicked_edit_save_note(self.frame_edit.frame_edit,
                                                                                           button_edit_save_note)
                                               )
         #
@@ -81,5 +82,6 @@ class HomePage(tk.Frame):
         else:
             self.clicked_save_note(frame_edit, button_edit_save_note)
 
-    def save_info(self,):
+    def save_info(self, ):
+        # self.all_nut.all_nut_appender(self.list_nuts)
         pass

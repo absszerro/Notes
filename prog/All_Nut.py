@@ -1,7 +1,7 @@
 import pickle
 from datetime import datetime
 import matplotlib.pyplot as plt
-from Notes.prog.List_of_NuT import List_of_NuT
+from List_of_NuT import List_of_NuT
 
 
 class All_Nut:

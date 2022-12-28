@@ -1,6 +1,6 @@
-from Notes.prog.NuT import NuT
-from Notes.prog.List_of_NuT import List_of_NuT
-from Notes.prog.All_Nut import All_Nut
+from NuT import NuT
+from List_of_NuT import List_of_NuT
+from All_Nut import All_Nut
 
 N = NuT("#start with     #Som#e Text and #tags", type=2, check=True)
 B = NuT("Yea", type=2, check=False)

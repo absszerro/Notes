@@ -25,7 +25,7 @@ class FrameEdit(tk.Frame):
         # self.save_list_num = ''
         # self.save_list_mark = ''
         # self.save_task = ''
-        self.list_of_nut = list_of_NuT()
+        # self.list_nuts = list_nuts
         self.index = 0
 
     def create_frame(self):
@@ -86,21 +86,21 @@ class FrameEdit(tk.Frame):
         button_num_list.grid(row=0, column=1, padx=5, pady=5)
         button_mark_list_add.grid(row=0, column=2, padx=5, pady=5)
         button_check_list_add.grid(row=0, column=3, padx=5, pady=5)
+
         return frame
 
     def add_elem(self, name):
+        # text_frame = None
         if name == 'text':
             self.clicked_add_text_elem(self.index)
             # self.check = self._master.check
         elif name == 'num_list':
-            print('num_list')
             self.clicked_add_num_list(self.index)
         elif name == 'mark_list':
-            print('mark_list')
             self.clicked_mark_list_add(self.index)
         elif name == 'task':
-            print('task')
             self.clicked_check_list(self.index)
+        # text = text_frame.get('1.0', 'end')
 
     def insert_mark(self, event):
         self.mark_list.insert(END, '\n•\t')  # добавляем пробелы на следующей строке

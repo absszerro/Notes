@@ -32,8 +32,6 @@ class MainWindow(ctk.CTk):
         # self.iconbitmap('icons/betel-nut.png')
 
         self.all_nut = all_nt()  # все заметки
-        # self.list_nut = list_nut()
-        # self.nut = nt()
 
         style = ttk.Style()
         style.theme_use('default')
@@ -193,9 +191,10 @@ class MainWindow(ctk.CTk):
 
     def create_archive_frame(self, ):
         frame = ctk.CTkFrame(self, width=p.WIDTH, height=p.HEIGHT, corner_radius=0, fg_color='transparent', )
-        entry_search = ctk.CTkEntry(frame, placeholder_text='Поиск', width=600, height=30, border_width=2)
+        entry_search = ctk.CTkEntry(frame, placeholder_text='Поиск', width=600, height=30, border_width=2,
+                                    font=('', 18))
         # self.entry_search.pack(padx=20, pady=10)
-        entry_search.place(relx=0.5, rely=0.02, anchor=tk.N)
+        entry_search.place(relx=0.4, rely=0.02, anchor=tk.N)
         button_search = ctk.CTkButton(frame,
                                       text='',
                                       image=icons.icon_search,
@@ -207,7 +206,7 @@ class MainWindow(ctk.CTk):
                                       hover_color=("gray70", "gray30"),
                                       command=self.clicked_search)
         # button_search.pack(side=tk.BOTTOM)
-        button_search.place(relx=0.81, rely=0.01, anchor=tk.N)
+        button_search.place(relx=0.73, rely=0.01, anchor=tk.N)
         button_sorted = ctk.CTkButton(frame,
                                       text='Недавние',
                                       image=icons.icon_sorted,
@@ -217,8 +216,9 @@ class MainWindow(ctk.CTk):
                                       height=30,
                                       border_spacing=10,
                                       hover_color=("gray70", "gray30"),
+                                      font=('', 18),
                                       command=self.clicked_sorted)
-        button_sorted.place(relx=0.88, rely=0.01, anchor=tk.N)
+        button_sorted.place(relx=0.83, rely=0.01, anchor=tk.N)
 
         frame_tags = f_tags(frame, 1000, 45)
         frame_tags.frame_tags.place(relx=0.5, rely=0.13, anchor=tk.CENTER)
@@ -339,10 +339,14 @@ class MainWindow(ctk.CTk):
         row = 0
         column = 0
 
-        notes = [['19.12.2022', '2/5', 'Отличный день, чтобы \nкупить подарки:\n1. Плюшевый медведь\n\t...'],
-                 ['20.12.2022', '3/7', 'Лабораторные работы:\n☑. ЛР 1\n☑. ЛР 2\n\t...'],
-                 ['21.12.2022', '2/6', '☑ Уборка\n☑ Магазин\n\t...']]
-        for i in range(3):
+        notes = [
+            # ['19.12.2022', '2/5', 'Отличный день, чтобы \nкупить подарки:\n1. Плюшевый медведь\n\t...'],
+            ['20.12.2022', '3/7', 'Лабораторные работы:\n☑. ЛР 1\n☑. ЛР 2\n\t...'],
+            # ['21.12.2022', '2/6', '☑ Уборка\n☑ Магазин\n\t...'],
+            # ['28.12.2022', '2/3', 'Сегодня прекрасная погода!\n1. Молоко\n2. Сыр\n3. Колбаса\n\t...'],
+        ]
+
+        for i in range(1):
             if column == 4:
                 column = 0
                 row += 1
@@ -351,7 +355,7 @@ class MainWindow(ctk.CTk):
 
     def create_note(self, frame, date, check_tasks, data_preview, row, column):
         color = random.choice(p.COLORS)
-        font = ('', 14, tk.font.BOLD)
+        font = ('', 18, tk.font.BOLD)
         width = 200
         height = 200
         # date = '16.12.2023'
@@ -373,7 +377,7 @@ class MainWindow(ctk.CTk):
         label.bind('<Enter>', partial(self.config_widget, label, color[0]))
         label.bind('<Leave>', partial(self.config_widget, label, color[1]))
         # label.place(relx=0.5, rely=0.5, anchor=tk.N)
-        label.grid(row=row, column=column, padx=25, pady=25)
+        label.grid(row=row, column=column, padx=10, pady=10)
 
     def create_frame_edit(self, frame):
         width = 20
